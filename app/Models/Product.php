@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\Model;
+
+class Product extends Model
+{
+    use HasTranslations;
+
+    protected $fillable = ['category_id', 'title', 'description', 'options'];
+    public $translatable = ['title', 'description'];
+    protected $casts = ['options' => 'array', 'media' => 'array'];
+
+    public function category() {
+        return $this->belongsTo('App\Models\Category');
+    }
+
+    public function variations() {
+        return $this->hasMany('App\Models\ProductVariation');
+    }
+}

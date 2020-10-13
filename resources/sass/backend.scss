@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback');
+
+@import '~admin-lte/build/scss/AdminLTE';
+@import '~icheck-bootstrap/icheck-bootstrap.css';
+@import '~datatables.net-bs4/css/dataTables.bootstrap4.css';
+@import '~bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css';
+@import '~datatables.net-responsive-bs4/css/responsive.bootstrap4.css';
+@import '~select2/dist/css/select2.css';
+@import '~toastr/toastr';
+@import '~daterangepicker/daterangepicker.css';
+@import '~dropzone/dist/dropzone.css';
+
+$fa-font-path: "/fonts" !default;
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+
+.dropzone {
+    border: 2px dashed #0087F7;
+    border-radius: 5px;
+    background: white;
+}
+.dropzone .dz-message {
+    font-weight: 400;
+}
+.dropzone .dz-message .note {
+    font-size: 0.8em;
+    font-weight: 200;
+    display: block;
+    margin-top: 1.4rem;
+}
