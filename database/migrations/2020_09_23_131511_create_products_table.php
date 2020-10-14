@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->json('options')->nullable(); // if empty - one variation defines price and stock
             $table->text('title'); // translatable
             $table->text('description'); // translatable

@@ -65,10 +65,22 @@ $(document).ready(function() {
             {
                 width: '1%',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                className: 'dt-body-nowrap'
             },
         ]
     });
 });
 </script>
+@endpush
+
+@push('css')
+<style>
+.dt-body-nowrap {
+    white-space: nowrap;
+}
+table.dt-head-nowrap thead {
+    white-space: nowrap;
+}
+</style>
 @endpush

@@ -27,6 +27,7 @@
             <form action="{{ route('backend.categories.update', $category->id) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label class="form-label">{{ __('Title') }}</label>
                     <div class="row">

@@ -22,7 +22,7 @@ class CreateSuppliersTable extends Migration
             $table->timestamps();
         });
         Schema::table('products', function (Blueprint $table) {
-            $table->foreignId('supplier_id')->nullable()->constrained();
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
         });
     }
 
@@ -34,7 +34,8 @@ class CreateSuppliersTable extends Migration
     public function down()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign('supplier_id');
+            $table->dropForeign(['supplier_id']);
+            $table->dropColumn('supplier_id');
         });
         Schema::dropIfExists('suppliers');
     }
