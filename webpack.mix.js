@@ -18,4 +18,6 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/home.js', 'public/js')
     .copyDirectory('node_modules/@fortawesome/fontawesome-free/webfonts', 'public/fonts')
     .copy('resources/lang/ru.json', 'public/lang')
-    .copy('resources/lang/en.json', 'public/lang');
+    .copy('resources/lang/en.json', 'public/lang')
+    .copy('resources/lang/uz.json', 'public/lang')
+    .copy('resources/lang/oz.json', 'public/lang');

@@ -13,17 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::namespace('App\Http\Controllers')->group(function() {
-    Route::get('/', 'SiteController@index')->name('home');
-    Route::get('/category/{id}', 'SiteController@category')->name('category.show');
-    Route::get('/product/{id}', 'SiteController@product')->name('product.show');
-    Route::get('/search', 'SiteController@search')->name('search');
-    Route::get('/cart', 'CartController@index')->name('cart.index');
-    Route::get('/cart/clear', 'CartController@clear')->name('cart.clear');
-    Route::get('/cart/{id}', 'CartController@store')->name('cart.store');
-    Route::post('/order', 'CartController@makeOrder')->name('order');
-});
-
 Route::prefix('backend')->namespace('App\Http\Controllers\Auth')->group(function() {
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login');
@@ -31,7 +20,7 @@ Route::prefix('backend')->namespace('App\Http\Controllers\Auth')->group(function
 });
 
 Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Backend')
-                    ->middleware('auth', 'role:admin')->group(function() {
+                    ->middleware('auth', 'role:admin', 'setlocale')->group(function() {
     Route::get('/', function() {
         return redirect()->route('backend.dashboard');
     });
@@ -63,4 +52,20 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
         Route::get('/', 'OrderController@index')->name('index');
     });
     Route::get('/settings', 'SettingController@index')->name('settings');
+});
+
+Route::prefix('{locale}')->where(['locale' => '(' . implode('|', config('app.locales')) . ')'])
+        ->middleware('setlocale')->namespace('App\Http\Controllers')->group(function() {
+    Route::get('/', 'SiteController@index')->name('home');
+    Route::get('/category/{id}', 'SiteController@category')->name('category.show');
+    Route::get('/product/{id}', 'SiteController@product')->name('product.show');
+    Route::get('/search', 'SiteController@search')->name('search');
+    Route::get('/cart', 'CartController@index')->name('cart.index');
+    Route::get('/cart/clear', 'CartController@clear')->name('cart.clear');
+    Route::get('/cart/{id}', 'CartController@store')->name('cart.store');
+    Route::post('/order', 'CartController@makeOrder')->name('order');
+});
+
+Route::get('/', function() {
+    return redirect(config('app.locale'));
 });

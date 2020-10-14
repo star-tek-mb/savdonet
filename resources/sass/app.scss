@@ -26,6 +26,13 @@ $fa-font-path: "/fonts" !default;
   min-height: 100vh;
 }
 
+.navbar-nav {
+  flex-direction: row;
+  > .dropdown > .btn {
+    padding: 0.75rem 0.75rem;
+  }
+}
+
 i.fas {
   color: white;
 }

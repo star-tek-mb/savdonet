@@ -33,12 +33,24 @@
             </ul>
         </div>
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-md navbar-dark bg-primary">
+            <nav class="navbar navbar-dark bg-primary">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ route('home') }}">
                         {{ config('app.name') }}
                     </a>
-                    <div class="d-inline ml-auto clearfix">
+                    <div class="navbar-nav ml-auto">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle text-white" type="button" id="languageMenu" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{ config('app.locale') }}
+                            </button>
+                            <div class="position-absolute dropdown-menu" aria-labelledby="languageMenu">
+                                @foreach (config('app.locales') as $locale)
+                                <a class="text-decoration-uppercase dropdown-item"
+                                    href="/{{ $locale }}">{{ __($locale) }}</a>
+                                @endforeach
+                            </div>
+                        </div>
                         <a class="btn" href="{{ route('cart.index') }}">
                             <span class="badge badge-danger badge-pill">@if (session('cart'))
                                 {{ count(session('cart')) }} @else 0 @endif</span>
@@ -55,9 +67,11 @@
 
                 </div>
             </nav>
-            <form action="/search" method="GET" class="collapse mt-4 @if (isset($results)) show @endif" id="searchContent">
+            <form action="{{ route('search') }}" method="GET" class="collapse mt-4 @if (isset($results)) show @endif"
+                id="searchContent">
                 <div class="container">
-                    <input name="q" class="form-control" type="search" placeholder="{{ __('Search') }}" aria-label="Search" value="{{ old('q') }}">
+                    <input name="q" class="form-control" type="search" placeholder="{{ __('Search') }}"
+                        aria-label="Search" value="{{ old('q') }}">
                     <button class="d-none" type="submit">{{ __('Search') }}</button>
                 </div>
             </form>
