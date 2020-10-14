@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+Artisan::command('register:admin', function() {
+    $name = $this->ask('Name');
+    $email = $this->ask('Email');
+    $password = $this->secret('Password');
+    $user = new App\Models\User;
+    $user->forceFill([
+        'name' => $name,
+        'email' => $email,
+        'password' => Hash::make($password),
+        'role' => 'admin'
+    ]);
+    $user->save();
+});

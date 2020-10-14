@@ -17,6 +17,7 @@ Route::namespace('App\Http\Controllers')->group(function() {
     Route::get('/', 'SiteController@index')->name('home');
     Route::get('/category/{id}', 'SiteController@category')->name('category.show');
     Route::get('/product/{id}', 'SiteController@product')->name('product.show');
+    Route::get('/search', 'SiteController@search')->name('search');
     Route::get('/cart', 'CartController@index')->name('cart.index');
     Route::get('/cart/clear', 'CartController@clear')->name('cart.clear');
     Route::get('/cart/{id}', 'CartController@store')->name('cart.store');
@@ -35,13 +36,16 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
         return redirect()->route('backend.dashboard');
     });
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-    Route::resource('categories', 'CategoryController')->only(['index', 'store', 'destroy']);
+    Route::resource('categories', 'CategoryController')->except(['show']);
+    Route::resource('suppliers', 'SupplierController')->except(['show']);
     Route::name('options.')->prefix('options')->group(function() {
         Route::get('/', 'OptionController@index')->name('index');
         Route::post('/', 'OptionController@store')->name('store');
+        Route::put('/{option}', 'OptionController@update')->name('update');
         Route::delete('/{option}', 'OptionController@destroy')->name('destroy');
-        Route::post('/value/{option}', 'OptionController@storeValue')->name('storeValue');
-        Route::delete('/value/{value}', 'OptionController@destroyValue')->name('destroyValue');
+        Route::post('/value/{option}', 'OptionController@storeValue')->name('value.store');
+        Route::put('/value/{value}', 'OptionController@updateValue')->name('value.update');
+        Route::delete('/value/{value}', 'OptionController@destroyValue')->name('value.destroy');
     });
     Route::name('products.')->prefix('products')->group(function() {
         Route::get('/create/single', 'ProductController@createSingle')->name('create.single');

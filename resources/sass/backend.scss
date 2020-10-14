@@ -15,6 +15,11 @@ $fa-font-path: "/fonts" !default;
 @import '~@fortawesome/fontawesome-free/scss/regular';
 @import '~@fortawesome/fontawesome-free/scss/solid';
 
+.custom-file-label {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .dropzone {
     border: 2px dashed #0087F7;
     border-radius: 5px;

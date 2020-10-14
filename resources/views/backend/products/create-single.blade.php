@@ -29,23 +29,21 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
+                            <label class="form-label">{{ __('Supplier') }}</label>
+                            <select name="supplier_id" class="form-control">
+                                <option value="">{{ __('Not set') }}</option>
+                                @foreach($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">
+                                    {{ $supplier->shop_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">{{ __('Category') }}</label>
                             <select name="category_id" class="form-control">
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}">
-                                    @php
-                                    $par = $category->parent;
-                                    $parents = array();
-                                    while ($par) {
-                                        array_push($parents, $par);
-                                        $par = $par->parent;
-                                    }
-                                    $parents = array_reverse($parents);
-                                    @endphp
-                                    @foreach ($parents as $parent)
-                                        {{ $parent->title }} - 
-                                    @endforeach
-                                    {{ $category->title }}</option>
+                                    {{ $category->full_name }}</option>
                                 @endforeach
                             </select>
                         </div>

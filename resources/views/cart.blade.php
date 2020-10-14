@@ -27,22 +27,7 @@
                 @foreach($cart as $cartItem)
                 <tr>
                     <td>{{ $cartItem['variation']->product->title }}
-                        @if (count($cartItem['variation']->values) > 0)
-                        @php $tmp = ''; @endphp
-                        @foreach ($cartItem['variation']->values as $variation_value_id)
-                        @foreach ($values as $value)
-                        @php
-                        if ($value->id == $variation_value_id) {
-                        $tmp .= $value->title;
-                        }
-                        @endphp
-                        @endforeach
-                        @php
-                        if (!$loop->last) $tmp .= ', ';
-                        @endphp
-                        @endforeach
-                        <span>({{ $tmp }})</span>
-                        @endif
+                        <span>{{ $cartItem['variation']->full_name ? '(' . $cartItem['variation']->full_name . ')' : '' }}</span>
                     </td>
                     <td>
                         {{ $cartItem['quantity'] }}
@@ -83,28 +68,28 @@
         <form method="POST" action="{{ route('order') }}">
             @csrf
             <div class="form-group">
-                <label class="form-label">{{ __('Full name') }}</label>
-                <input name="fullname" type="text" class="form-control" placeholder="{{ __('Full name') }}">
+                <label class="form-label">{{ __('Full name') }} (<span class="text-danger font-weight-bold">*</span>)</label>
+                <input name="fullname" type="text" required class="form-control" placeholder="{{ __('Full name') }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('E-Mail Address') }}</label>
                 <input name="email" type="text" class="form-control" placeholder="mail@example.com">
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Phone') }}</label>
-                <input name="phone" type="text" class="form-control" placeholder="+998XXXXXXXXX">
+                <label class="form-label">{{ __('Phone') }} (<span class="text-danger font-weight-bold">*</span>)</label>
+                <input name="phone" type="text" class="form-control" required placeholder="+998XXXXXXXXX">
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Region') }}</label>
+                <label class="form-label">{{ __('Region') }} (<span class="text-danger font-weight-bold">*</span>)</label>
                 <select name="region_city" class="form-control">
                     @foreach($regions as $region)
-                    <option value="{{ $region }}">{{ $region }}</option>
+                    <option value="{{ $region }}">{{ __($region) }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
-                <label class="form-label">{{ __('Address') }}</label>
-                <input name="address" type="text" class="form-control" placeholder="{{ __('Street, Apartment') }}">
+                <label class="form-label">{{ __('Address') }} (<span class="text-danger font-weight-bold">*</span>)</label>
+                <input name="address" type="text" class="form-control" required placeholder="{{ __('Street, Apartment') }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Comment') }}</label>
@@ -124,10 +109,5 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/pace.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
-@endpush
-
-@push('css')
-<link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
 @endpush

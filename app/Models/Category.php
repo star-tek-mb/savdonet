@@ -38,4 +38,20 @@ class Category extends Model
         $this->collect($collection, $this);
         return $collection;
     }
+
+    public function getFullNameAttribute() {
+        $res = '';
+        $parents = array();
+        $current = $this->parent;
+        while ($current) {
+            array_push($parents, $current);
+            $current = $current->parent;
+        }
+        $parents = array_reverse($parents);
+        foreach ($parents as $parent) {
+            $res .= $parent->title . ' - ';
+        }
+        $res .= $this->title;
+        return $res;
+    }
 }

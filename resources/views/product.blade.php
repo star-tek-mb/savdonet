@@ -113,10 +113,5 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/pace.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
-@endpush
-
-@push('css')
-<link href="{{ asset('css/pace.min.css') }}" rel="stylesheet">
 @endpush

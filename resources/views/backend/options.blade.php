@@ -28,19 +28,16 @@
                 <div class="card-body">
                     <form action="{{ route('backend.options.store') }}" method="POST">
                         @csrf
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Title') }}</label>
-                            <div class="row">
-                                @foreach(config('app.locales') as $locale)
-                                <div class="col-12">
-                                    <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                        placeholder="{{ __($locale) }}">
-                                </div>
-                                @endforeach
+                        <div class="row">
+                            @foreach(config('app.locales') as $locale)
+                            <div class="col">
+                                <input name="title[{{ $locale }}]" type="text" class="form-control"
+                                    placeholder="{{ __($locale) }}">
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">
+                            @endforeach
+                            <div class="col-auto">
+                                <button type="submit" class="btn bg-blue"><i class="fas fa-plus"></i></button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -48,67 +45,80 @@
             @foreach ($options as $option)
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">{{ __('Option') }}:
-                        @foreach (config('app.locales') as $locale)
-                        {{ $option->getTranslation('title', $locale) }}
-                        @if (!$loop->last) , @endif
-                        @endforeach
-                    </h3>
+                    <h3 class="card-title">{{ $option->title }}</h3>
                     <div class="card-tools">
                         <form class="d-none" action="{{ route('backend.options.destroy', $option->id) }}" method="post">
                             @csrf
                             @method('DELETE')
                         </form>
-                        <a class="btn btn-tool bg-red" onclick="event.preventDefault(); $(this).prev().submit();"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-tool bg-red" onclick="event.preventDefault(); $(this).prev().submit();"><i
+                                class="fas fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="card-body">
-                    <h4>{{ __('Values') }}</h4>
-                    <table class="data-tables text-center table-borderless table-sm dt-responsive nowrap"
-                        style="width:100%">
-                        <thead>
-                            <tr>
-                                @foreach(config('app.locales') as $locale)
-                                <th>{{ __($locale) }}</th>
-                                @endforeach
-                                <th>{{ __('Action') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($option->values as $value)
-                            <tr>
-                                @foreach(config('app.locales') as $locale)
-                                <td>
-                                    {{ $value->getTranslation('title', $locale) }}
-                                </td>
-                                @endforeach
-                                <td>
-                                    <form class="d-none" action="{{ route('backend.options.destroyValue', $value->id) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <a class="btn btn-tool bg-red" onclick="event.preventDefault(); $(this).prev().submit();"><i class="fas fa-trash"></i></a>
-                                </td>
-                            </tr>
+                    <h4>{{ __('Edit') }}</h4>
+                    <form action="{{ route('backend.options.update', $option->id) }}" method="post">
+                        <div class="row my-2">
+
+                            @csrf
+                            @method('PUT')
+
+                            @foreach(config('app.locales') as $locale)
+                            <div class="col">
+                                <input class="form-control" name="title[{{ $locale }}]" type="text"
+                                    value="{{ $option->getTranslation('title', $locale) }}">
+                            </div>
                             @endforeach
-                        </tbody>
-                    </table>
-                    <h4 class="pt-4">{{ __('Add Value') }}</h4>
-                    <form action="{{ route('backend.options.storeValue', $option->id) }}" method="POST">
+                            <div class="col-auto">
+                                <a class="btn bg-green"
+                                    onclick="event.preventDefault(); $(this).parent().parent(). parent().submit();"><i
+                                        class="fas fa-save"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                    <h4>{{ __('Values') }}</h4>
+                    @foreach ($option->values as $value)
+                    <div class="row my-2">
+                        <form class="row col" action="{{ route('backend.options.value.update', $value->id) }}"
+                            method="POST">
+                            @csrf
+                            @method('PUT')
+                            @foreach(config('app.locales') as $locale)
+                            <div class="col">
+                                <input class="form-control" name="title[{{ $locale }}]" type="text"
+                                    value="{{ $value->getTranslation('title', $locale) }}">
+                            </div>
+                            @endforeach
+                        </form>
+                        <div class="col-auto">
+                            <form class="d-none" action="{{ route('backend.options.value.destroy', $value->id) }}"
+                                method="post">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <a class="btn bg-green"
+                                onclick="event.preventDefault(); $(this).parent().prev().submit();"><i
+                                    class="fas fa-save"></i></a>
+                            <a class="btn bg-red" onclick="event.preventDefault(); $(this).prev().submit();"><i
+                                    class="fas fa-trash"></i></a>
+                        </div>
+                    </div>
+                    @endforeach
+                    <h4>{{ __('Add Value') }}</h4>
+                    <form action="{{ route('backend.options.value.store', $option->id) }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <div class="row">
+                            <div class="row my-2">
                                 @foreach(config('app.locales') as $locale)
-                                <div class="col-12">
+                                <div class="col">
                                     <input name="title[{{ $locale }}]" type="text" class="form-control"
                                         placeholder="{{ __($locale) }}">
                                 </div>
                                 @endforeach
+                                <div class="col-auto">
+                                    <button type="submit" class="btn bg-blue"><i class="fas fa-plus"></i></button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">
                         </div>
                     </form>
                 </div>
@@ -129,8 +139,7 @@ $(document).ready(function() {
         info: false,
         searching: false,
         language: window.DataTableLanguage,
-        columns: [
-            {
+        columns: [{
                 "width": "30%"
             },
             {

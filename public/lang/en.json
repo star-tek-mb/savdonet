@@ -2,5 +2,20 @@
     "ru": "Russian",
     "uz": "Uzbek (Cyrillic)",
     "oz": "Uzbek (Latin)",
-    "delivery_price": "Delivery Price"
+    "delivery_price": "Delivery Price",
+    "created": "New",
+    "tashkent_city": "Tashkent",
+    "andijan": "Andijan region",
+    "bukhara": "Bukhara region",
+    "jizzakh": "Jizzakh region",
+    "qashqadaryo": "Qashqadaryo region",
+    "navoiy": "Navoiy region",
+    "namangan": "Namangan region",
+    "samarqand": "Samarqand region",
+    "surxondaryo": "Surxondaryo region",
+    "sirdaryo": "Sirdaryo region",
+    "tashkent": "Tashkent region",
+    "fergana": "Fergana region",
+    "xorazm": "Xorazm region",
+    "karakalpakstan": "Republic of Karakalpakstan"
 }

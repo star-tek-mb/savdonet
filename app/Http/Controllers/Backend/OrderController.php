@@ -16,6 +16,8 @@ class OrderController extends Controller
             return Datatables::eloquent(Order::query())->addIndexColumn()
                 ->editColumn('status', function($row) {
                     return __($row->status);
+                })->editColumn('region_city', function($row) {
+                    return __($row->region_city);
                 })->addColumn('total', function($row) {
                     $total = $row->delivery_price;
                     foreach ($row->products as $order_product) {

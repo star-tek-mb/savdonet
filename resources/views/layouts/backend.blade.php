@@ -73,7 +73,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('backend.categories.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'backend.categories.index' ? 'active' : '' }}">
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'backend.categories') !== false ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-folder"></i>
                                 <p>{{ __('Categories') }}</p>
                             </a>
@@ -111,6 +111,13 @@
                                 class="nav-link {{ Route::currentRouteName() == 'backend.orders.index' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>{{ __('Orders') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('backend.suppliers.index') }}"
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'backend.suppliers') !== false ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-industry"></i>
+                                <p>{{ __('Suppliers') }}</p>
                             </a>
                         </li>
                         <li class="nav-item">

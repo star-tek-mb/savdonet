@@ -160,6 +160,10 @@ return [
         'photo.*'               => 'Photo',
         'sale_price'            => 'Sale Price',
         'sale_price.*'          => 'Sale Price',
+        'fullname'              => 'Fullname',
+        'comment'               => 'Comment',
+        'region_city'           => 'Region',
+        'q'                     => 'Search'
     ],
 
 ];

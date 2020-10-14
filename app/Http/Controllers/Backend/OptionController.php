@@ -31,6 +31,19 @@ class OptionController extends Controller
         return redirect()->back()->with('status', __('Option stored!'));
     }
 
+    public function update($id, Request $request)
+    {
+        $option = Option::findOrFail($id);
+        Validator::make($request->all(), [
+            'title' => 'required|array',
+            'title.*' => 'required'
+        ])->validate();
+        $translations = $request->input('title');
+        $option->setTranslations('title', $translations);
+        $option->save();
+        return redirect()->back()->with('status', __('Option saved!'));
+    }
+
     public function destroy($id)
     {
         $option = Option::findOrFail($id);
@@ -52,6 +65,19 @@ class OptionController extends Controller
         $value->setTranslations('title', $translations);
         $value->save();
         return redirect()->back()->with('status', __('Value stored!'));
+    }
+
+    public function updateValue($id)
+    {
+        $value = Value::findOrFail($id);
+        Validator::make($request->all(), [
+            'title' => 'required|array',
+            'title.*' => 'required'
+        ])->validate();
+        $translations = $request->input('title');
+        $value->setTranslations('title', $translations);
+        $value->save();
+        return redirect()->back()->with('status', __('Value saved!'));
     }
 
     public function destroyValue($id)

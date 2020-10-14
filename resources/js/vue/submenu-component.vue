@@ -1,8 +1,7 @@
 <template>
   <div class="submenu">
     <a
-      class="text-primary mx-2"
-      :class="{ 'text-danger': category.id == active }"
+      :class="{ 'selected': category.id == active }"
       v-for="category in categories"
       :key="category.id"
       @click="selected(category.id)"
@@ -11,24 +10,40 @@
     </a>
   </div>
 </template>
-<style scoped>
+<style>
 .submenu {
   overflow: auto;
   white-space: nowrap;
+  line-height: 3rem;
 }
 .submenu a {
-  margin-bottom: 5px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
+  padding: 0 0.5rem;
+  background: #ecf0fa;
+  color: black !important;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+  display: inline-block;
+}
+.submenu a.selected {
+  background: #85c1ff !important;
+  color: white !important;
 }
 .submenu a:hover {
   text-decoration: none;
+  color: #85c1ff !important;
+}
+.submenu a.selected:hover {
+  color: white !important;
 }
 @media (min-width: 768px) {
   .submenu {
     white-space: normal;
     display: inline;
+    overflow: hidden;
   }
 }
 </style>
@@ -43,8 +58,12 @@ export default {
   },
   methods: {
     selected: function (id) {
-      this.$emit("submenu-selected", id);
-      this.active = id;
+      if (this.active == id) {
+        this.active = -1;
+      } else {
+        this.active = id;
+      }
+      this.$emit("submenu-selected", this.active);
     },
   },
   watch: {

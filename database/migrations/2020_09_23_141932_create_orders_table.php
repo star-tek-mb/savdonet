@@ -18,11 +18,11 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->nullable()->constrained(); // for future
             $table->integer('delivery_price'); // total price = delivery_price + sum(order_products.price)
             $table->text('name');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('phone');
             $table->text('region_city');
             $table->text('address');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->string('status'); // created, paid (if prepaid), delivering, done, cancelled
             $table->timestamps();
         });

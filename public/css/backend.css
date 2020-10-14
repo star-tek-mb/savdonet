@@ -41097,6 +41097,11 @@ readers do not read off random characters that represent icons */
   font-weight: 900;
 }
 
+.custom-file-label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .dropzone {
   border: 2px dashed #0087F7;
   border-radius: 5px;

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\Option;
 use App\Models\Value;
+use App\Models\Supplier;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -24,7 +25,9 @@ class ProductController extends Controller
                 ->editColumn('title', function($row) {
                     return $row->title;
                 })->addColumn('category', function($row) {
-                    return $row->category->title;
+                    return $row->category->full_name;
+                })->addColumn('supplier', function($row) {
+                    return $row->supplier ? $row->supplier->shop_name : __('Not set');
                 })->addColumn('image', function($row) {
                     return view('backend.products.datatables-carousel', ['product' => $row]);
                 })->addColumn('price', function($row) {
@@ -33,22 +36,24 @@ class ProductController extends Controller
                     return $row->variations[0]->stock;
                 })->addColumn('action', function($row) {
                     return view('backend.products.datatables-action', ['product' => $row]);
-                })->rawColumns(['category', 'image', 'action', 'price', 'stock'])->make(true);
+                })->rawColumns(['category', 'supplier', 'image', 'action', 'price', 'stock'])->make(true);
         }
         return view('backend.products.index');
     }
 
     public function createSingle()
     {
-        $categories = Category::all();
-        return view('backend.products.create-single', ['categories' => $categories]);
+        $categories = Category::all()->sortBy('full_name');
+        $suppliers = Supplier::all();
+        return view('backend.products.create-single', ['categories' => $categories, 'suppliers' => $suppliers]);
     }
 
     public function createVariable()
     {
-        $categories = Category::all();
+        $categories = Category::all()->sortBy('full_name');
         $options = Option::all();
-        return view('backend.products.create-variable', ['categories' => $categories, 'options' => $options]);
+        $suppliers = Supplier::all();
+        return view('backend.products.create-variable', ['categories' => $categories, 'options' => $options, 'suppliers' => $suppliers]);
     }
 
     public function store(Request $request) {
@@ -64,6 +69,7 @@ class ProductController extends Controller
                 'description' => 'required|array',
                 'description.*' => 'required',
                 'category_id' => 'required',
+                'supplier_id' => 'nullable|int',
                 'price' => 'required|array',
                 'price.*' => 'required|integer|min:1',
                 'stock' => 'required|array',
@@ -75,6 +81,7 @@ class ProductController extends Controller
 
             $product = new Product([
                 'category_id' => $request->input('category_id'),
+                'supplier_id' => $request->input('supplier_id'),
                 'options' => $request->input('options')
             ]);
             $product->setTranslations('title', $translations_title);
@@ -100,7 +107,8 @@ class ProductController extends Controller
                 'title.*' => 'required',
                 'description' => 'required|array',
                 'description.*' => 'required',
-                'category_id' => 'required',
+                'category_id' => 'required|int',
+                'supplier_id' => 'nullable|int',
                 'price' => 'required|integer|min:1',
                 'stock' => 'required|integer|min:1',
                 'photo' => 'required|image'
@@ -109,6 +117,7 @@ class ProductController extends Controller
             $photo_url = $request->file('photo')->store('upload', 'public');
             $product = new Product([
                 'category_id' => $request->input('category_id'),
+                'supplier_id' => $request->input('supplier_id'),
                 'options' => array()
             ]);
             $product->setTranslations('title', $translations_title);
@@ -129,13 +138,14 @@ class ProductController extends Controller
 
     public function edit($id) {
         $product = Product::findOrFail($id);
-        $categories = Category::all();
+        $categories = Category::all()->sortBy('full_name');
         $options = Option::all();
         $values = Value::all();
+        $suppliers = Supplier::all();
         if ($product->options) {
-            return view('backend.products.edit-variable', ['product' => $product, 'categories' => $categories, 'options' => $options, 'values' => $values]);
+            return view('backend.products.edit-variable', ['product' => $product, 'categories' => $categories, 'options' => $options, 'values' => $values, 'suppliers' => $suppliers]);
         } else {
-            return view('backend.products.edit-single', ['product' => $product, 'categories' => $categories]);
+            return view('backend.products.edit-single', ['product' => $product, 'categories' => $categories, 'suppliers' => $suppliers]);
         }
     }
 
@@ -146,6 +156,7 @@ class ProductController extends Controller
             'description' => 'required|array',
             'description.*' => 'required',
             'category_id' => 'required',
+            'supplier_id' => 'nullable|int',
             'price' => 'required|array',
             'price.*' => 'required|integer|min:1',
             'stock' => 'required|array',
@@ -161,7 +172,8 @@ class ProductController extends Controller
         $translations_title = $request->input('title');
         $translations_description = $request->input('description');
         $product->fill([
-            'category_id' => $request->input('category_id')
+            'category_id' => $request->input('category_id'),
+            'supplier_id' => $request->input('supplier_id')
         ]);
         $product->setTranslations('title', $translations_title);
         $product->setTranslations('description', $translations_description);

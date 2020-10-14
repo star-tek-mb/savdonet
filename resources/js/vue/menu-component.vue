@@ -18,8 +18,14 @@ export default {
   methods: {
     selected: function (id, event) {
       this.submenus.splice(id + 1);
-      this.submenus.push(event);
-      this.$emit('menu-selected', event);
+      if (id == 0 && event == -1) {
+        this.$emit('menu-selected', 'latest');
+      } else if (event == -1) {
+        this.$emit('menu-selected', this.submenus[this.submenus.length -1]);
+      } else {
+        this.submenus.push(event);
+        this.$emit('menu-selected', event);
+      }
     },
   },
 };

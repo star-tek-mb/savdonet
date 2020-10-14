@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Value;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductVariation extends Model
@@ -12,5 +13,26 @@ class ProductVariation extends Model
 
     public function product() {
         return $this->belongsTo('App\Models\Product');
+    }
+
+    public function getFullNameAttribute() {
+        $res = null;
+        $global_values = Value::all();
+        if (count($this->values) > 0) {
+            $res = '';
+            $vals = array_values($this->values);
+            $last = end($vals);
+            foreach ($this->values as $variation_value_id) {
+                foreach ($global_values as $v) {
+                    if ($v->id == $variation_value_id) {
+                        $res .= $v->title;
+                    }
+                }
+                if ($last != $variation_value_id) {
+                    $res .= ', ';
+                }
+            }
+        }
+        return $res;
     }
 }

@@ -1,9 +1,7 @@
 <template>
   <div class="container">
-    <h2 class="py-2">{{ __("Categories") }}</h2>
     <menu-component @menu-selected="selected($event)"></menu-component>
-    <h2 class="mt-2 py-2">{{ __("Products") }}</h2>
-    <div class="row">
+    <div class="my-4 row">
       <div
         class="col-12 col-md-6 col-lg-4 py-2"
         v-for="product in products"

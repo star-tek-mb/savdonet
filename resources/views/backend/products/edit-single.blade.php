@@ -31,24 +31,23 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
+                            <label class="form-label">{{ __('Supplier') }}</label>
+                            <select name="supplier_id" class="form-control">
+                                <option value="">{{ __('Not set') }}</option>
+                                @foreach($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}" @if ($product->supplier_id == $supplier->id)
+                                    selected @endif>
+                                    {{ $supplier->shop_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">{{ __('Category') }}</label>
                             <select name="category_id" class="form-control">
                                 @foreach($categories as $category)
                                 <option value="{{ $category->id }}" @if ($product->category_id == $category->id)
                                     selected @endif>
-                                    @php
-                                    $par = $category->parent;
-                                    $parents = array();
-                                    while ($par) {
-                                    array_push($parents, $par);
-                                    $par = $par->parent;
-                                    }
-                                    $parents = array_reverse($parents);
-                                    @endphp
-                                    @foreach ($parents as $parent)
-                                    {{ $parent->title }} -
-                                    @endforeach
-                                    {{ $category->title }}</option>
+                                    {{ $category->full_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -149,7 +148,7 @@ Dropzone.options.mediaDropzone = {
                     };
                     myDropzone.displayExistingFile(file, "/storage/" + value.file);
                 });
-        });
+            });
         myDropzone.on('removedfile', function(file) {
             $.ajax({
                 url: "{{ route('backend.products.dropzone.delete', $product->id) }}",

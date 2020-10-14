@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['category_id', 'title', 'description', 'options'];
+    protected $fillable = ['category_id', 'title', 'description', 'options', 'supplier_id'];
     public $translatable = ['title', 'description'];
     protected $casts = ['options' => 'array', 'media' => 'array'];
 
@@ -20,4 +20,9 @@ class Product extends Model
     public function variations() {
         return $this->hasMany('App\Models\ProductVariation');
     }
+
+    public function supplier() {
+        return $this->belongsTo('App\Models\Supplier');
+    }
+
 }

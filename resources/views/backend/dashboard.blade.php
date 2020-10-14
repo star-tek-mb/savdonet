@@ -61,7 +61,7 @@
         <tr>
             <td>{{ $order->name }}</td>
             <td>{{ $order->phone }}</td>
-            <td>{{ $order->region_city }}</td>
+            <td>{{ __($order->region_city) }}</td>
             <td>{{ $order->address }}</td>
             <td>{{ $total }} сум</td>
             <td>
@@ -86,22 +86,7 @@
         @foreach($stocks_notification as $variation)
         <tr>
             <td>
-                @if (count($variation->values) > 0)
-                @php $tmp = ''; @endphp
-                @foreach ($variation->values as $variation_value_id)
-                @foreach ($values as $value)
-                @php
-                if ($value->id == $variation_value_id) {
-                $tmp .= $value->title;
-                }
-                @endphp
-                @endforeach
-                @php
-                if (!$loop->last) $tmp .= ', ';
-                @endphp
-                @endforeach
-                @endif
-                {{ $variation->product->title }} @if (isset($tmp)) ({{ $tmp }}) @endif
+                {{ $variation->product->title }} {{ $variation->full_name ? '(' . $variation->full_name . ')' : '' }}
             </td>
             <td>{{ $variation->price }} сум</td>
             <td>{{ $variation->stock }}</td>

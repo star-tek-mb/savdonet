@@ -6,6 +6,8 @@ use App\Models\Product;
 use App\Models\Value;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Validator;
+use DB;
 
 class SiteController extends Controller
 {
@@ -36,5 +38,20 @@ class SiteController extends Controller
         $product = Product::findOrFail($id)->load('variations');
         $values = Value::all()->load('option');
         return view('product', ['categories' => $categories, 'product' => $product, 'values' => $values]);
+    }
+
+    public function search(Request $request) {
+        $categories = Category::whereNull('parent_id')->get();
+        $request->flash();
+
+        $validator = Validator::make($request->all(), ['q' => 'required|string|min:2']);
+        if ($validator->fails()) {
+            return view('search', ['categories' => $categories, 'results' => []])->withErrors($validator);
+        }
+
+        $terms = '%' . $request->query('q') . '%';
+        $locale = config('app.locale');
+        $results = Product::whereRaw("lower(json_unquote(json_extract(title, '$.$locale'))) LIKE ?", trim(strtolower($terms)))->paginate(1);
+        return view('search', ['categories' => $categories, 'results' => $results]);
     }
 }
