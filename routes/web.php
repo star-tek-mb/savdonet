@@ -51,8 +51,10 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     Route::name('orders.')->prefix('orders')->group(function() {
         Route::get('/', 'OrderController@index')->name('index');
         Route::get('/{id}', 'OrderController@show')->name('show');
+        Route::put('/status/{id}', 'OrderController@updateStatus')->name('status.update');
     });
     Route::get('/settings', 'SettingController@index')->name('settings');
+    Route::post('/settings', 'SettingController@store')->name('settings.store');
 });
 
 Route::prefix('{locale}')->where(['locale' => '(' . implode('|', config('app.locales')) . ')'])

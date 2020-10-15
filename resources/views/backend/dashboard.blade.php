@@ -46,7 +46,6 @@
                 <th>{{ __('Full name') }}</th>
                 <th>{{ __('Phone') }}</th>
                 <th>{{ __('Region') }}</th>
-                <th>{{ __('Address') }}</th>
                 <th>{{ __('Total') }}</th>
                 <th>{{ __('Action') }}</th>
             </tr>
@@ -61,8 +60,7 @@
         <tr>
             <td>{{ $order->name }}</td>
             <td>{{ $order->phone }}</td>
-            <td>{{ __($order->region_city) }}</td>
-            <td>{{ $order->address }}</td>
+            <td>{{ __($order->region) }}</td>
             <td>{{ $total }} сум</td>
             <td>
                 @include('backend.orders.datatables-action')
@@ -115,10 +113,12 @@ $(document).ready(function() {
             null,
             null,
             null,
-            null,
             {
-                "width": "10%"
-            },
+                orderable: false,
+                searchable: false,
+                responsivePriority: 1,
+                targets: -1
+            }
         ]
     });
     $('#stocks').DataTable({

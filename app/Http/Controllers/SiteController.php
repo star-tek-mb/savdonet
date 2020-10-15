@@ -35,7 +35,7 @@ class SiteController extends Controller
 
     public function product($id) {
         $categories = Category::whereNull('parent_id')->get();
-        $product = Product::findOrFail($id)->load('variations');
+        $product = Product::with('variations')->findOrFail($id);
         $values = Value::all()->load('option');
         return view('product', ['categories' => $categories, 'product' => $product, 'values' => $values]);
     }
@@ -51,7 +51,7 @@ class SiteController extends Controller
 
         $terms = '%' . $request->query('q') . '%';
         $locale = config('app.locale');
-        $results = Product::whereRaw("lower(json_unquote(json_extract(title, '$.$locale'))) LIKE ?", trim(strtolower($terms)))->paginate(1);
+        $results = Product::whereRaw("lower(json_unquote(json_extract(title, '$.$locale'))) LIKE ?", trim(strtolower($terms)))->paginate();
         return view('search', ['categories' => $categories, 'results' => $results]);
     }
 }

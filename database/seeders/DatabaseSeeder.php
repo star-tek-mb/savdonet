@@ -17,7 +17,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Setting::create([
-            'key' => 'delivery_price',
+            'key' => 'delivery_price_office',
+            'value' => '15000'
+        ]);
+        Setting::create([
+            'key' => 'delivery_price_courier',
+            'value' => '15000'
+        ]);
+        Setting::create([
+            'key' => 'delivery_price_courier_tashkent',
             'value' => '15000'
         ]);
     }

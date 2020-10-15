@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-3 my-auto">
                                 <img class="img-fluid"
                                     src="{{ Storage::url($product->variations[0]->photo_url) }}"></img>
                             </div>

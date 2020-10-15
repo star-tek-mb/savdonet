@@ -17,10 +17,31 @@
             <p><b>{{ __('Full name') }}</b>: {{ $order->name }}</p>
             <p><b>{{ __('E-Mail Address') }}</b>: {{ $order->email ?? __('No') }}</p>
             <p><b>{{ __('Phone') }}</b>: {{ $order->phone }}</p>
-            <p><b>{{ __('Region') }}</b>: {{ __($order->region_city) }}</p>
+            <p><b>{{ __('Region') }}</b>: {{ __($order->region) }}</p>
+            <p><b>{{ __('City') }}</b>: {{ $order->city }}</p>
             <p><b>{{ __('Address') }}</b>: {{ $order->address }}</p>
             <p><b>{{ __('Comment') }}</b>: {{ $order->comment ?? __('No') }}</p>
+            <p><b>{{ __('Shipping Method') }}</b>: {{ __($order->delivery) }}</p>
             <p><b>{{ __('Status') }}</b>: {{ __($order->status) }}</p>
+            <form action="{{ route('backend.orders.status.update', $order->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label class="form-label">{{ __('Update Status') }}</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <select name="status" class="form-control" style="width: 100%;">
+                                @foreach($statuses as $status)
+                                <option value="{{ $status }}" @if ($order->status == $status) selected @endif>{{ __($status) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn bg-green"><i class="fas fa-save"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
     <div class="card">
@@ -51,7 +72,7 @@
                     @php $total += $order_product->item->price * $order_product->quantity; @endphp
                     @endforeach
                     <tr>
-                        <td colspan="3">{{ __('delivery_price') }}</td>
+                        <td colspan="3">{{ __('Delivery Price') }}</td>
                         <td>{{ $order->delivery_price }} сум</td>
                     </tr>
                     <tr>

@@ -42,15 +42,15 @@ $(document).ready(function() {
             },
             {
                 data: 'title',
-                name: 'title'
+                name: 'product.title'
             },
             {
                 data: 'category',
-                name: 'category'
+                name: 'product.category.title',
             },
             {
                 data: 'supplier',
-                name: 'supplier'
+                name: 'product.supplier.shop_name',
             },
             {
                 data: 'price',

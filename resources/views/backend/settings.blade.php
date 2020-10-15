@@ -5,7 +5,13 @@
 @section('content')
 
 <div class="container-fluid">
-    <form action="{{ route('backend.settings') }}" method="POST">
+    @if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div>
+    @endif
+    <form action="{{ route('backend.settings.store') }}" method="POST">
+        @csrf
         @foreach ($settings as $key => $value)
         <div class="form-group">
             <label class="form-label">{{ __($key) }}</label>

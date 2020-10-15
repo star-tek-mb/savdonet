@@ -162,7 +162,8 @@ return [
         'sale_price.*'          => 'Sale Price',
         'fullname'              => 'Fullname',
         'comment'               => 'Comment',
-        'region_city'           => 'Region',
+        'region'                => 'Region',
+        'city'                  => 'City',
         'q'                     => 'Search'
     ],
 

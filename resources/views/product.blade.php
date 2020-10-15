@@ -60,11 +60,11 @@
             <p>{{ $product->description }}</p>
         </div>
     </div>
-    @if (count($product->variations) > 1)
-    <div class="text-center mx-auto">
+    @if (count($product->options) > 0)
+    <div class="text-center mx-auto pt-4">
         <h1>{{ __("Variations") }}</h1>
         @foreach ($product->variations as $variation)
-        <div class="row mx-auto my-4">
+        <div class="row mx-auto">
             <div class="col-sm-12 col-md-4 my-sm-4">
                 <img src="{{ Storage::url($variation->photo_url) }}" class="mx-auto img-fluid"
                     alt="{{ $product->title }}" />

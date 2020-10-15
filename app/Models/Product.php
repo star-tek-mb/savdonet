@@ -12,6 +12,7 @@ class Product extends Model
     protected $fillable = ['category_id', 'title', 'description', 'options', 'supplier_id'];
     public $translatable = ['title', 'description'];
     protected $casts = ['options' => 'array', 'media' => 'array'];
+    protected $with = ['category'];
 
     public function category() {
         return $this->belongsTo('App\Models\Category');

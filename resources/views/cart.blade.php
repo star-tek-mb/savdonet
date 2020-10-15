@@ -5,9 +5,9 @@
 @section('content')
 
 <div class="container">
-    @if (session('message'))
-    <div class="alert alert-success" role="alert">
-        {{ session('message') }}
+    @if (session('status'))
+    <div class="alert alert-info" role="alert">
+        {{ session('status') }}
     </div>
     @endif
 </div>
@@ -24,7 +24,6 @@
                 <th>{{ __('Total') }}</th>
             </thead>
             <tbody>
-                @php $total = 0; @endphp
                 @foreach($cart as $cartItem)
                 <tr>
                     <td>{{ $cartItem['variation']->product->title }}
@@ -39,13 +38,18 @@
                         </div>
                     </td>
                     <td>{{ $cartItem['variation']->price }} сум</td>
-                    <td>{{ $cartItem['variation']->price * $cartItem['quantity'] }} сум</td>
+                    <td class="price" data-price="{{ $cartItem['variation']->price * $cartItem['quantity'] }}">
+                        {{ $cartItem['variation']->price * $cartItem['quantity'] }} сум
+                    </td>
                 </tr>
-                @php $total += $cartItem['variation']->price *$cartItem['quantity']; @endphp
                 @endforeach
                 <tr>
+                    <td colspan="3">{{ __('Delivery Price') }}</td>
+                    <td id="delivery_price"></td>
+                </tr>
+                <tr>
                     <td colspan="3">{{ __('Total') }}</td>
-                    <td>{{ $total }} сум</td>
+                    <td id="total_price"></td>
                 </tr>
             </tbody>
         </table>
@@ -68,6 +72,14 @@
         <form method="POST" action="{{ route('order') }}">
             @csrf
             <div class="form-group">
+                <label class="form-label">{{ __('Shipping Method') }} (<span class="text-danger font-weight-bold">*</span>)</label>
+                <select id="delivery_select" name="delivery" class="form-control">
+                    @foreach($delivery as $method)
+                    <option value="{{ $method }}">{{ __($method) }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label class="form-label">{{ __('Full name') }} (<span class="text-danger font-weight-bold">*</span>)</label>
                 <input name="fullname" type="text" required class="form-control" placeholder="{{ __('Full name') }}">
             </div>
@@ -81,11 +93,15 @@
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Region') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <select name="region_city" class="form-control">
+                <select name="region" class="form-control">
                     @foreach($regions as $region)
                     <option value="{{ $region }}">{{ __($region) }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">{{ __('City') }} (<span class="text-danger font-weight-bold">*</span>)</label>
+                <input name="city" type="text" class="form-control" required placeholder="{{ __('City') }}">
             </div>
             <div class="form-group">
                 <label class="form-label">{{ __('Address') }} (<span class="text-danger font-weight-bold">*</span>)</label>
@@ -109,7 +125,28 @@
 @endsection
 
 @push('js')
-<script src="{{ asset('js/app.js') }}" defer></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+var prices = {
+@foreach ($delivery as $method)
+"{{ $method }}": {{ $settings['delivery_price_' . $method] }},
+@endforeach
+};
+function calc() {
+    var total = parseInt(prices[$('#delivery_select').val()]);
+    $('.price').each(function() {
+        total += parseInt($(this).data('price'));
+    });
+    $('#delivery_price').text(prices[$('#delivery_select').val()] + ' сум');
+    $('#total_price').text(total + ' сум');
+}
+$(document).ready(function() {
+    calc();
+    $('#delivery_select').on('change', function() {
+        calc();
+    });
+});
+</script>
 @endpush
 
 @push('css')

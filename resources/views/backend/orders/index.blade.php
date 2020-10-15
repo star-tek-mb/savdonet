@@ -14,6 +14,7 @@
             <th>{{ __('Order date') }}</th>
             <th>{{ __('Phone') }}</th>
             <th>{{ __('Region') }}</th>
+            <th>{{ __('City') }}</th>
             <th>{{ __('Address') }}</th>
             <th>{{ __('Total') }}</th>
             <th>{{ __('Action') }}</th>
@@ -39,18 +40,20 @@ $(document).ready(function() {
             status: "{{ __('created') }}"
         },
         columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
+                data: 'id',
+                name: 'id',
                 orderable: false,
                 searchable: false
             },
             {
                 data: 'name',
-                name: 'name'
+                name: 'name',
+                responsivePriority: 1
             },
             {
                 data: 'status',
-                name: 'status'
+                name: 'status',
+                responsivePriority: 2
             },
             {
                 data: 'created_at',
@@ -67,8 +70,12 @@ $(document).ready(function() {
                 name: 'phone'
             },
             {
-                data: 'region_city',
-                name: 'region_city'
+                data: 'region',
+                name: 'region'
+            },
+            {
+                data: 'city',
+                name: 'city'
             },
             {
                 data: 'address',
@@ -76,14 +83,17 @@ $(document).ready(function() {
             },
             {
                 data: 'total',
-                name: 'total'
+                name: 'total',
+                responsivePriority: 3
             },
             {
                 data: 'action',
                 name: 'action',
                 width: '5%',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                responsivePriority: 4,
+                targets: -1
             }
         ]
     });

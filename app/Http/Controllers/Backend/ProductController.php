@@ -21,8 +21,9 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::eloquent(ProductVariation::query())
-                ->editColumn('title', function($row) {
+            $model = ProductVariation::with(['product', 'product.category', 'product.supplier']);
+            return Datatables::eloquent($model)
+                ->addColumn('title', function($row) {
                     return $row->product->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
                     return $row->product->category->full_name;
@@ -69,7 +70,7 @@ class ProductController extends Controller
                 'price' => 'required|array',
                 'price.*' => 'required|integer|min:1',
                 'stock' => 'required|array',
-                'stock.*' => 'required|integer|min:1',
+                'stock.*' => 'required|integer|min:0',
                 'values' => 'required|array',
                 'photo' => 'required|array',
                 'photo.*' => 'required|image'
@@ -106,7 +107,7 @@ class ProductController extends Controller
                 'category_id' => 'required|int',
                 'supplier_id' => 'nullable|int',
                 'price' => 'required|integer|min:1',
-                'stock' => 'required|integer|min:1',
+                'stock' => 'required|integer|min:0',
                 'photo' => 'required|image'
             ])->validate();
 
@@ -156,7 +157,7 @@ class ProductController extends Controller
             'price' => 'required|array',
             'price.*' => 'required|integer|min:1',
             'stock' => 'required|array',
-            'stock.*' => 'required|integer|min:1',
+            'stock.*' => 'required|integer|min:0',
             'photo' => 'nullable|array',
             'photo.*' => 'nullable|image',
             'sale_price' => 'required|array',

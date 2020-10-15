@@ -17,7 +17,6 @@ class CartController extends Controller
 
     // TODO?
     private $regions = array(
-        'tashkent_city',
         'andijan',
         'bukhara',
         'jizzakh',
@@ -33,8 +32,15 @@ class CartController extends Controller
         'karakalpakstan'
     );
 
+    private $delivery = array(
+        'office',
+        'courier',
+        'courier_tashkent'
+    );
+
     public function index()
     {
+        $settings = Setting::all()->pluck('value', 'key')->toArray();
         $categories = Category::whereNull('parent_id')->get();
         $values = Value::all();
         $cart = session()->get('cart') ?? array();
@@ -52,7 +58,9 @@ class CartController extends Controller
             'cart' => $cart,
             'values' => $values,
             'categories' => $categories,
-            'regions' => $this->regions
+            'regions' => $this->regions,
+            'delivery' => $this->delivery,
+            'settings' => $settings
         ]);
     }
 
@@ -78,37 +86,42 @@ class CartController extends Controller
     public function clear()
     {
         session()->put('cart', array());
-        return redirect()->back()->with('message', __('Cart cleared!'));;
+        return redirect()->back()->with('status', __('Cart cleared!'));;
     }
 
     public function makeOrder(Request $request) {
         Validator::make($request->all(), [
             'fullname' => 'required|string|max:512',
-            'email' => 'nullable|string|email|max:512',
+            'email' => 'nullable|string|email|max:256',
             'phone' => 'required|regex:/(\+998)[0-9]{9}$/',
             'address' => 'required|string|max:512',
             'comment' => 'nullable|string|max:1024',
-            'region_city' => [
+            'region' => [
                 'required',
                 Rule::in($this->regions)
+            ],
+            'city' => 'required|string|max:256',
+            'delivery' => [
+                'required',
+                Rule::in($this->delivery)
             ]
         ])->validate();
 
         // check cart and stocks
         $cart = session()->get('cart') ?? array();
         if (count($cart) <= 0) {
-            return redirect()->back()->with('message', __('Cart is empty!'));
+            return redirect()->back()->with('status', __('Cart is empty!'));
         }
         foreach ($cart as $cartItem) {
             if ($cartItem['variation']->stock < $cartItem['quantity']) {
-                return redirect()->back()->with('message', __('Not in stock!'));
+                return redirect()->back()->with('status', __('Not in stock!'));
             }
         }
 
         $settings = Setting::all()->pluck('value', 'key')->toArray();
         $order = new Order($request->except('fullname'));
         $order->name = $request->input('fullname');
-        $order->delivery_price = $settings['delivery_price'];
+        $order->delivery_price = $settings['delivery_price_' . $request->input('delivery')];
         $order->status = 'created';
         $order->save();
         foreach ($cart as $cartItem) {
@@ -119,8 +132,9 @@ class CartController extends Controller
                 'quantity' => $cartItem['quantity']
             ]);
             $cartItem['variation']->stock -= $cartItem['quantity'];
+            $cartItem['variation']->save();
         }
         session()->put('cart', array()); // clear cart
-        return redirect()->back()->with('message', __('Thanks for your order!'));
+        return redirect()->back()->with('status', __('Thanks for your order!'));
     }
 }
