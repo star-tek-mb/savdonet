@@ -27,11 +27,7 @@
 @push('js')
 <script>
 $(document).ready(function() {
-    var table = $('#products').on('draw.dt', function() {
-        $('.carousel').carousel({
-            interval: 2000
-        });
-    }).DataTable({
+    var table = $('#products').DataTable({
         language: window.DataTableLanguage,
         responsive: true,
         processing: true,

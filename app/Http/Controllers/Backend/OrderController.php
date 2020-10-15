@@ -31,4 +31,9 @@ class OrderController extends Controller
         return view('backend.orders.index');
     }
 
+    public function show($id, Request $request) {
+        $order = Order::findOrFail($id);
+        return view('backend.orders.show', ['order' => $order]);
+    }
+
 }

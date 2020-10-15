@@ -8,15 +8,6 @@ try {
     console.log(e);
 }
 
-window.loaded_lang = {};
-
-window.__ = function(str) {
-    if (str[document.documentElement.lang]) {
-        return str[document.documentElement.lang];
-    }
-    return window.loaded_lang[str] || str;
-}
-
 $(document).ready(function() {
     $('body').removeClass('preload');
     $('#sidebar-wrapper').on('toggled', function() {

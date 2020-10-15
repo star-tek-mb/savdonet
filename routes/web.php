@@ -26,7 +26,7 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     });
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('categories', 'CategoryController')->except(['show']);
-    Route::resource('suppliers', 'SupplierController')->except(['show']);
+    Route::resource('suppliers', 'SupplierController');
     Route::name('options.')->prefix('options')->group(function() {
         Route::get('/', 'OptionController@index')->name('index');
         Route::post('/', 'OptionController@store')->name('store');
@@ -50,6 +50,7 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     });
     Route::name('orders.')->prefix('orders')->group(function() {
         Route::get('/', 'OrderController@index')->name('index');
+        Route::get('/{id}', 'OrderController@show')->name('show');
     });
     Route::get('/settings', 'SettingController@index')->name('settings');
 });

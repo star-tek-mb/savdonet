@@ -5,5 +5,5 @@
     @csrf
 </form>
 @if (!isset($delete))
-<a onclick="event.preventDefault(); $(this).prev().submit();" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+<a onclick="event.preventDefault(); if (confirm('{{ __('Are you sure?') }}')) { $(this).prev().submit(); }" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
 @endif

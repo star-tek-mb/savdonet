@@ -40,8 +40,8 @@
                     </a>
                     <div class="navbar-nav ml-auto">
                         <div class="dropdown">
-                            <button class="btn dropdown-toggle text-white" type="button" id="languageMenu" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
+                            <button class="btn dropdown-toggle text-white" type="button" id="languageMenu"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ config('app.locale') }}
                             </button>
                             <div class="position-absolute dropdown-menu" aria-labelledby="languageMenu">
@@ -77,6 +77,18 @@
             </form>
 
             <main class="py-4">
+                @if (Route::currentRouteName() != 'home')
+                <nav class="container" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('Home') }}</a></li>
+                        @include('layouts.breadcrumb-category')
+                        @include('layouts.breadcrumb-product')
+                        @if (!in_array(Route::currentRouteName(), ['category.show', 'product.show']))
+                        <li class="breadcrumb-item active" aria-current="page">@yield('title')</li>
+                        @endif
+                    </ol>
+                </nav>
+                @endif
                 @yield('content')
             </main>
         </div>

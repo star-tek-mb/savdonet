@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="suppliers" class="table table-bordered dt-responsive nowrap" style="width:100%">
+            <table id="suppliers" class="table table-bordered dt-responsive dt-head-nowrap" style="width:100%">
                 <thead>
                     <tr>
                         <th>{{ __('Full name') }}</th>
@@ -36,6 +36,8 @@
                         <td>{{ $supplier->address }}</td>
                         <td>{{ $supplier->phone }}</td>
                         <td>
+                            <a href="{{ route('backend.suppliers.show', $supplier->id) }}"
+                                class="btn btn-tool text-white bg-blue"><i class="fas fa-eye"></i></a>
                             <a href="{{ route('backend.suppliers.edit', $supplier->id) }}"
                                 class="btn btn-tool text-white bg-green"><i class="fas fa-edit"></i></a>
                             <form class="d-none" action="{{ route('backend.suppliers.destroy', $supplier->id) }}"
@@ -69,10 +71,22 @@ $(document).ready(function() {
             {
                 width: '1%',
                 orderable: false,
-                searchable: false
+                searchable: false,
+                className: 'dt-body-nowrap'
             },
         ]
     });
 });
 </script>
+@endpush
+
+@push('css')
+<style>
+.dt-body-nowrap {
+    white-space: nowrap;
+}
+table.dt-head-nowrap thead {
+    white-space: nowrap;
+}
+</style>
 @endpush

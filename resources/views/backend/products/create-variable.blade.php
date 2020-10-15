@@ -79,27 +79,32 @@
                         <div class="form-group">
                             <label class="form-label">{{ __('Values') }}</label>
                             <div class="form-row">
-                                <select class="form-control values" multiple="multiple" style="width:75%">
-                                    @foreach($options as $option)
-                                    <optgroup label="{{ $option->title }}" disabled>
-                                        @foreach($option->values as $value)
-                                        <option value="{{ $value->id }}">{{ $value->title }}</option>
+                                <div class="col">
+                                    <select class="form-control values" multiple="multiple" style="width: 100%;">
+                                        @foreach($options as $option)
+                                        <optgroup label="{{ $option->title }}" disabled>
+                                            @foreach($option->values as $value)
+                                            <option value="{{ $value->id }}">{{ $value->title }}</option>
+                                            @endforeach
+                                        </optgroup>
                                         @endforeach
-                                    </optgroup>
-                                    @endforeach
-                                </select>
-                                <button type="button" style="width:25%"
-                                    class="add-variation btn btn-primary btn-sm">{{ __('Add Variation') }}</button>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="add-variation btn btn-primary"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="add-button" class="text-center pb-2">
-                    <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">
+                    <input type="submit" class="btn btn-primary" value="{{ __('Save') }}">
                 </div>
             </form>
         </div>
     </div>
+</div>
 </div>
 @endsection
 
@@ -166,7 +171,7 @@ $(document).ready(function() {
             <div class="card-header">
                 <h3 class="card-title">{{ __('Variation') }}: ` + selected_names + `</h3>
                 <div class="card-tools">
-                    <button type="button" onclick="$(this).parent().parent().parent().remove();" class="btn btn-sm bg-red"><i class="fas fa-trash"></i></button>
+                    <button type="button" onclick="$(this).parent().parent().parent().remove();" class="btn btn-tool bg-red"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
             <div class="card-body">

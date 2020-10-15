@@ -18,9 +18,10 @@
     <div class="table-responsive">
         <table class="table table-bordered table-sm">
             <thead>
-                <th style="width: 55%;">{{ __('Product') }}</th>
-                <th style="width: 20%;">{{ __('Quantity') }}</th>
-                <th style="width: 25%;">{{ __('Price') }}</th>
+                <th>{{ __('Product') }}</th>
+                <th>{{ __('Quantity') }}</th>
+                <th>{{ __('Price') }}</th>
+                <th>{{ __('Total') }}</th>
             </thead>
             <tbody>
                 @php $total = 0; @endphp
@@ -29,22 +30,21 @@
                     <td>{{ $cartItem['variation']->product->title }}
                         <span>{{ $cartItem['variation']->full_name ? '(' . $cartItem['variation']->full_name . ')' : '' }}</span>
                     </td>
-                    <td>
-                        {{ $cartItem['quantity'] }}
+                    <td class="my-auto">{{ $cartItem['quantity'] }}
                         <div class="btn-group float-right">
                             <a href="{{ route('cart.store', ['id' => $cartItem['variation']->id, 'qty' => $cartItem['quantity']+1 ]) }}"
-                                class="btn btn-sm btn-success"><i class="fas fa-plus"></i></a>
+                                class="count btn btn-sm btn-success"><i class="fas fa-plus"></i></a>
                             <a href="{{ route('cart.store', ['id' => $cartItem['variation']->id, 'qty' => $cartItem['quantity']-1 ]) }}"
-                                class="btn btn-sm btn-danger"><i class="fas fa-minus"></i></a>
+                                class="count btn btn-sm btn-danger"><i class="fas fa-minus"></i></a>
                         </div>
                     </td>
                     <td>{{ $cartItem['variation']->price }} сум</td>
+                    <td>{{ $cartItem['variation']->price * $cartItem['quantity'] }} сум</td>
                 </tr>
                 @php $total += $cartItem['variation']->price *$cartItem['quantity']; @endphp
                 @endforeach
                 <tr>
-                    <td>{{ __('Total') }}</td>
-                    <td></td>
+                    <td colspan="3">{{ __('Total') }}</td>
                     <td>{{ $total }} сум</td>
                 </tr>
             </tbody>
@@ -110,4 +110,12 @@
 
 @push('js')
 <script src="{{ asset('js/app.js') }}" defer></script>
+@endpush
+
+@push('css')
+<style>
+.count {
+    padding: 0.5rem !important;
+}
+</style>
 @endpush

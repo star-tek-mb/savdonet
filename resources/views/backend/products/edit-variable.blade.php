@@ -104,7 +104,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-3 my-auto">
                                 <img class="img-fluid" src="{{ Storage::url($variation->photo_url) }}"></img>
                             </div>
                             <div class="col-9">

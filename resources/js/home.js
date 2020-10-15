@@ -4,7 +4,14 @@ import Vue from 'vue';
 import Home from './vue/home.vue';
 import InfiniteLoading from 'vue-infinite-loading';
 
-Vue.prototype.__ = window.__;
+window.loaded_lang = {};
+Vue.prototype.documentLanguage = document.documentElement.lang;
+Vue.prototype.__ = function(str) {
+  if (str[document.documentElement.lang]) {
+      return str[document.documentElement.lang];
+  }
+  return window.loaded_lang[str] || str;
+};
 Vue.prototype.trunc = function (str, num) {
   if (str.length > num) {
     return str.slice(0, num) + "...";

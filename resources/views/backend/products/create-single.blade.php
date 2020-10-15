@@ -83,7 +83,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">
+                            <input type="submit" class="btn btn-primary" value="{{ __('Save') }}">
                         </div>
                     </div>
                 </div>

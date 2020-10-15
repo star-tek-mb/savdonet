@@ -10,7 +10,7 @@
         {{ session('status') }}
     </div>
     @endif
-    <h1 class="py-4">{{ $category->title }}</h1>
+    <h1 class="pb-4">{{ $category->title }}</h1>
     @if (count($products) == 0)
     <p class="h2">{{ __("Category is empty!") }}</p>
     @else

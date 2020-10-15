@@ -17,6 +17,12 @@ class SupplierController extends Controller
         return view('backend.suppliers.index', ['suppliers' => $suppliers]);
     }
 
+    public function show($id)
+    {
+        $supplier = Supplier::findOrFail($id);
+        return view('backend.suppliers.show', ['supplier' => $supplier]);
+    }
+
     public function create()
     {
         return view('backend.suppliers.create');

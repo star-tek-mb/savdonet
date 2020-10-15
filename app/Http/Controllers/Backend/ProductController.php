@@ -21,22 +21,18 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::eloquent(Product::query())
+            return Datatables::eloquent(ProductVariation::query())
                 ->editColumn('title', function($row) {
-                    return $row->title;
+                    return $row->product->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
-                    return $row->category->full_name;
+                    return $row->product->category->full_name;
                 })->addColumn('supplier', function($row) {
-                    return $row->supplier ? $row->supplier->shop_name : __('Not set');
+                    return $row->product->supplier ? $row->product->supplier->shop_name : __('Not set');
                 })->addColumn('image', function($row) {
-                    return view('backend.products.datatables-carousel', ['product' => $row]);
-                })->addColumn('price', function($row) {
-                    return $row->variations[0]->price;
-                })->addColumn('stock', function($row) {
-                    return $row->variations[0]->stock;
+                    return '<img src="' . Storage::url($row->photo_url) . '" class="img-fluid">';
                 })->addColumn('action', function($row) {
-                    return view('backend.products.datatables-action', ['product' => $row]);
-                })->rawColumns(['category', 'supplier', 'image', 'action', 'price', 'stock'])->make(true);
+                    return view('backend.products.datatables-action', ['product' => $row->product]);
+                })->rawColumns(['category', 'supplier', 'image', 'action'])->make(true);
         }
         return view('backend.products.index');
     }
@@ -59,7 +55,7 @@ class ProductController extends Controller
     public function store(Request $request) {
         $translations_title = $request->input('title');;
         $translations_description = $request->input('description');
-
+        $product = null;
         if ($request->has('options')) {
             Validator::make($request->all(), [
                 'title' => 'required|array',
@@ -133,7 +129,7 @@ class ProductController extends Controller
             ]);
             $product_variation->save();
         }
-        return redirect()->back()->with('status', __('Product saved!'));
+        return redirect()->route('backend.products.edit', ['id' => $product->id])->with('status', __('Product saved!'));
     }
 
     public function edit($id) {
