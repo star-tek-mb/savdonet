@@ -23,7 +23,12 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $model = ProductVariation::with(['product', 'product.category', 'product.supplier']);
             return Datatables::eloquent($model)
-                ->addColumn('title', function($row) {
+                ->filter(function($query) {
+                    $locale = config('app.locale');
+                    $keyword = request('search.value');
+                    $sql = "exists (select * from `products` where `product_variations`.`product_id` = `products`.`id` and lower(json_unquote(json_extract(`products`.`title`, '$.$locale'))) LIKE ?)";
+                    $query->whereRaw($sql, ["%{$keyword}%"]);
+                })->addColumn('title', function($row) {
                     return $row->product->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
                     return $row->product->category->full_name;
