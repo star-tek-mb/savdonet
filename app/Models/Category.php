@@ -10,7 +10,7 @@ class Category extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['parent_id', 'title', 'photo_url'];
+    protected $fillable = ['parent_id', 'title', 'photo_url', 'number'];
     public $translatable = ['title'];
     public $timestamps = false;
 
@@ -19,7 +19,7 @@ class Category extends Model
     }
 
     public function children() {
-        return $this->hasMany('App\Models\Category', 'parent_id');
+        return $this->hasMany('App\Models\Category', 'parent_id')->orderBy('number');
     }
 
     public function products() {

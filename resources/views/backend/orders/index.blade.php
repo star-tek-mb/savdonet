@@ -5,24 +5,40 @@
 @section('content')
 
 <div class="container-fluid">
-
-    <table id="orders" class="table table-bordered dt-responsive nowrap" style="width:100%">
-        <thead>
-            <th>№</th>
-            <th>{{ __('Full name') }}</th>
-            <th>{{ __('Status') }}</th>
-            <th>{{ __('Order date') }}</th>
-            <th>{{ __('Phone') }}</th>
-            <th>{{ __('Region') }}</th>
-            <th>{{ __('City') }}</th>
-            <th>{{ __('Address') }}</th>
-            <th>{{ __('Total') }}</th>
-            <th>{{ __('Action') }}</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ __('Categories') }}</h3>
+            <div class="card-tools">
+                <a class="btn btn-tool bg-green" href="{{ route('backend.categories.create') }}"><i
+                        class="fas fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="card-body">
+            <ul id="buttons" class="nav nav-pills nav-fill pb-4">
+                @foreach ($statuses as $status)
+                <li class="nav-item">
+                    <a class="nav-link" data-name="{{ $status }}">{{ __($status) }}</a>
+                </li>
+                @endforeach
+            </ul>
+            <table id="orders" class="table table-bordered dt-responsive nowrap" style="width:100%">
+                <thead>
+                    <th>№</th>
+                    <th>{{ __('Full name') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Order date') }}</th>
+                    <th>{{ __('Phone') }}</th>
+                    <th>{{ __('Region') }}</th>
+                    <th>{{ __('City') }}</th>
+                    <th>{{ __('Address') }}</th>
+                    <th>{{ __('Total') }}</th>
+                    <th>{{ __('Action') }}</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -36,9 +52,6 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: "{{ route('backend.orders.index') }}",
-        search: {
-            status: "{{ __('created') }}"
-        },
         columns: [{
                 data: 'id',
                 name: 'id',
@@ -96,6 +109,17 @@ $(document).ready(function() {
                 targets: -1
             }
         ]
+    });
+    $('#buttons a').on('click', function() {
+        var active = $('#buttons a.active'); 
+        if ($(this).is('a.active')) {
+            $('#buttons a').removeClass('active');
+            table.search('').draw();
+        } else {
+            $('#buttons a').removeClass('active');
+            $(this).addClass('active');
+            table.search($(this).data('name')).draw();
+        }
     });
 });
 </script>

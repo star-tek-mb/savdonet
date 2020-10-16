@@ -27,6 +27,7 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('categories', 'CategoryController')->except(['show']);
     Route::resource('suppliers', 'SupplierController');
+    Route::resource('orders', 'OrderController')->except(['delete']);
     Route::name('options.')->prefix('options')->group(function() {
         Route::get('/', 'OptionController@index')->name('index');
         Route::post('/', 'OptionController@store')->name('store');
@@ -47,11 +48,6 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
         Route::post('/{id}/dropzone', 'ProductController@dropzoneUpload')->name('dropzone.upload');
         Route::get('/{id}/dropzone', 'ProductController@dropzoneInit')->name('dropzone.init');
         Route::delete('/{id}/dropzone', 'ProductController@dropzoneDelete')->name('dropzone.delete');
-    });
-    Route::name('orders.')->prefix('orders')->group(function() {
-        Route::get('/', 'OrderController@index')->name('index');
-        Route::get('/{id}', 'OrderController@show')->name('show');
-        Route::put('/status/{id}', 'OrderController@updateStatus')->name('status.update');
     });
     Route::get('/settings', 'SettingController@index')->name('settings');
     Route::post('/settings', 'SettingController@store')->name('settings.store');

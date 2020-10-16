@@ -9,7 +9,7 @@
       <p class="h5 card-title">
         {{ __(product.title)
         }}<span class="text-danger float-right"
-          >{{ product.variations[0].price }} сум</span
+          >{{ product.variations[0].price }} {{ __('currency') }}</span
         >
       </p>
       <p>{{ trunc(__(product.description), 200) }}</p>

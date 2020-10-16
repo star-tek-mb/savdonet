@@ -1,1 +1,2 @@
-<a href="{{ route('backend.orders.show', $order->id) }}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+<a href="{{ route('backend.orders.show', $order->id) }}" class="btn btn-sm bg-blue"><i class="fas fa-eye"></i></a>
+<a href="{{ route('backend.orders.edit', $order->id) }}" class="btn btn-sm bg-green"><i class="fas fa-pen"></i></a>

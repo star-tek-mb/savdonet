@@ -27,6 +27,10 @@
             <form action="{{ route('backend.categories.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
+                    <label class="form-label">#</label>
+                    <input name="number" type="number" class="form-control">
+                </div>
+                <div class="form-group">
                     <label class="form-label">{{ __('Title') }}</label>
                     <div class="row">
                         @foreach(config('app.locales') as $locale)

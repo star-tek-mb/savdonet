@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <h5 class="card-title no-letter-spacing">
                         {{ $product->title }}<span class="text-danger float-right">{{ $product->variations[0]->price }}
-                            сум</span>
+                        {{ __('currency') }}</span>
                     </h5>
                     <p>{{ \Illuminate\Support\Str::limit($product->description, 200) }}</p>
                 </div>

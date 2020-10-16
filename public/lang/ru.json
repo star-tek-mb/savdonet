@@ -110,5 +110,7 @@
     "Update Status": "Обновить статус",
     "Shipping Method": "Способ доставки",
     "Delivery Price": "Стоимость доставки",
-    "No": "Нет"
+    "No": "Нет",
+    "From": "От",
+    "currency": "сум"
 }

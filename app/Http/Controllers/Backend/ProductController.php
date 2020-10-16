@@ -32,6 +32,8 @@ class ProductController extends Controller
                     return $row->product->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
                     return $row->product->category->full_name;
+                })->addColumn('views', function($row) {
+                    return $row->product->views ?? 0;
                 })->addColumn('supplier', function($row) {
                     return $row->product->supplier ? $row->product->supplier->shop_name : __('Not set');
                 })->addColumn('image', function($row) {
@@ -168,7 +170,6 @@ class ProductController extends Controller
             'sale_price' => 'required|array',
             'sale_price.*' => 'nullable|integer|min:1'
         ])->validate();
-
         $product = Product::findOrFail($id);
         // edit main product, we are not editing options and values
         $translations_title = $request->input('title');
@@ -181,16 +182,27 @@ class ProductController extends Controller
         $product->setTranslations('description', $translations_description);
         $product->save();
         // edit its variation
+        $editable = array();
         for ($i = 0; $i < count($request->input('variation')); $i++) {
-            $variation = ProductVariation::findOrFail($request->input('variation')[$i]);
+            $variation = ProductVariation::find($request->input('variation')[$i]);
+            if (!$variation) {
+                $variation = new ProductVariation();
+            } else {
+                array_push($editable, $request->input('variation')[$i]);
+            }
+            $values = explode(',', $request->input('values')[$i]);
             // check photo uploaded, delete old if true
             $photo_url = $variation->photo_url;
             if ($request->file('photo') && array_key_exists($i, $request->file('photo'))) {
-                Storage::disk('public')->delete($variation->photo_url);
+                if ($photo_url) {
+                    Storage::disk('public')->delete($photo_url);
+                }
                 $photo_url = $request->file('photo')[$i]->store('upload', 'public');
             }
             // fill
             $variation->fill([
+                'product_id' => $product->id,
+                'values' => $values,
                 'stock' => $request->input('stock')[$i],
                 'price' => $request->input('price')[$i],
                 'photo_url' => $photo_url
@@ -211,6 +223,15 @@ class ProductController extends Controller
                 ]);
             }
             $variation->save();
+            array_push($editable, $variation->id);
+        }
+        // delete variations
+        $product_variations = $product->variations;
+        foreach ($product_variations as $product_variation) {
+            if (!in_array($product_variation->id, $editable)) {
+                Storage::disk('public')->delete($product_variation->photo_url);
+                $product_variation->delete();
+            }
         }
         return redirect()->back()->with('status', __('Product saved!'));
     }
@@ -219,6 +240,9 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         foreach ($product->variations as $variation) {
             Storage::disk('public')->delete($variation->photo_url);
+        }
+        foreach ($product->media ?? array() as $media) {
+            Storage::disk('public')->delete($media);
         }
         $product->delete();
         return redirect()->route('backend.products.index');
@@ -240,7 +264,7 @@ class ProductController extends Controller
     public function dropzoneInit($id, Request $request) {
         $product = Product::findOrFail($id);
         $res = array();
-        foreach ($product->media as $media) {
+        foreach ($product->media ?? array() as $media) {
             array_push($res, array(
                 'file' => $media,
                 'size' => Storage::disk('public')->size($media)

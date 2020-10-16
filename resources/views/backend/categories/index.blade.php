@@ -20,6 +20,7 @@
             <table id="category" class="table table-bordered dt-responsive" style="width:100%">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>{{ __('Photo') }}</th>
                         <th>{{ __('Full name') }}</th>
                         <th>{{ __('Action') }}</th>
@@ -28,6 +29,7 @@
                 <tbody>
                     @foreach($categories as $category)
                     <tr>
+                        <td>{{ $category->number }}</td>
                         <td><img class="img-fluid" src="{{ Storage::url($category->photo_url) }}"></img></td>
                         <td>{{ $category->full_name }}</td>
                         <td>

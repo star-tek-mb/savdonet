@@ -16,7 +16,7 @@ class CartController extends Controller
 {
 
     // TODO?
-    private $regions = array(
+    const regions = array(
         'andijan',
         'bukhara',
         'jizzakh',
@@ -32,7 +32,7 @@ class CartController extends Controller
         'karakalpakstan'
     );
 
-    private $delivery = array(
+    const delivery = array(
         'office',
         'courier',
         'courier_tashkent'
@@ -45,21 +45,26 @@ class CartController extends Controller
         $values = Value::all();
         $cart = session()->get('cart') ?? array();
 
-        // check if products exist
+        // check if products exist and calc total
+        $total = 0;
         foreach ($cart as $id => $cartItem) {
-            if (ProductVariation::find($id) == null) {
+            $var = ProductVariation::find($id);
+            if ($var == null) {
                 $cart = array();
                 session()->put('cart', $cart);
                 break;
+            } else {
+                $total += $var->price;
             }
         }
 
         return view('cart', [
             'cart' => $cart,
+            'total' => $total,
             'values' => $values,
             'categories' => $categories,
-            'regions' => $this->regions,
-            'delivery' => $this->delivery,
+            'regions' => CartController::regions,
+            'delivery' => CartController::delivery,
             'settings' => $settings
         ]);
     }
@@ -94,16 +99,16 @@ class CartController extends Controller
             'fullname' => 'required|string|max:512',
             'email' => 'nullable|string|email|max:256',
             'phone' => 'required|regex:/(\+998)[0-9]{9}$/',
-            'address' => 'required|string|max:512',
+            'address' => 'nullable|string|max:512',
             'comment' => 'nullable|string|max:1024',
             'region' => [
-                'required',
-                Rule::in($this->regions)
+                'nullable',
+                Rule::in(CartController::regions)
             ],
-            'city' => 'required|string|max:256',
+            'city' => 'nullable|string|max:256',
             'delivery' => [
-                'required',
-                Rule::in($this->delivery)
+                'nullable',
+                Rule::in(CartController::delivery)
             ]
         ])->validate();
 
@@ -121,7 +126,8 @@ class CartController extends Controller
         $settings = Setting::all()->pluck('value', 'key')->toArray();
         $order = new Order($request->except('fullname'));
         $order->name = $request->input('fullname');
-        $order->delivery_price = $settings['delivery_price_' . $request->input('delivery')];
+        $shipping_method = $request->input('delivery');
+        $order->delivery_price = $settings['delivery_price' . ($shipping_method ? "_$shipping_method" : "")];
         $order->status = 'created';
         $order->save();
         foreach ($cart as $cartItem) {
@@ -131,8 +137,7 @@ class CartController extends Controller
                 'price' => $cartItem['variation']->price,
                 'quantity' => $cartItem['quantity']
             ]);
-            $cartItem['variation']->stock -= $cartItem['quantity'];
-            $cartItem['variation']->save();
+            $cartItem['variation']->decrement('stock', $cartItem['quantity']);
         }
         session()->put('cart', array()); // clear cart
         return redirect()->back()->with('status', __('Thanks for your order!'));

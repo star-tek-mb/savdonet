@@ -71,7 +71,7 @@
             </div>
             <div class="col-sm-6 col-md-4 my-auto">
                 <p><b>{{ __("Stock") }}</b>: {{ $variation->stock }}</p>
-                <p><b>{{ __("Price") }}</b>: {{ $variation->price }} сум</p>
+                <p><b>{{ __("Price") }}</b>: {{ $variation->price }} {{ __('currency') }}</p>
                 @foreach ($variation->values as $variation_value_id)
                 @foreach ($values as $value)
                 @if ($value->id == $variation_value_id)
@@ -96,7 +96,7 @@
     @else
     <div class="row my-4">
         <p class="col-4 my-auto text-right"><b>{{ __("Stock") }}</b>:
-            {{ $product->variations[0]->stock }}<br><b>{{ __("Price") }}</b>: {{ $product->variations[0]->price }} сум
+            {{ $product->variations[0]->stock }}<br><b>{{ __("Price") }}</b>: {{ $product->variations[0]->price }} {{ __('currency') }}
         </p>
         <div class="col-4 text-right my-2">
             <input type="number" id="variation{{ $product->variations[0]->id }}" class="form-control" value="1">

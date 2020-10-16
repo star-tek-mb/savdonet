@@ -11,12 +11,12 @@ class ApiController extends Controller
 
     public function mainCategories()
     {
-        return Category::whereNull('parent_id')->get();
+        return Category::whereNull('parent_id')->orderBy('number')->get();
     }
 
     public function subCategories($id)
     {
-        return Category::where('parent_id', $id)->get();
+        return Category::where('parent_id', $id)->orderBy('number')->get();
     }
 
     function paginateCollection($items, $perPage = 15, $page = null, $options = []) {

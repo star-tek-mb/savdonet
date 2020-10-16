@@ -108,7 +108,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('backend.orders.index') }}"
-                                class="nav-link {{ Route::currentRouteName() == 'backend.orders.index' ? 'active' : '' }}">
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'backend.orders') !== false ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shopping-cart"></i>
                                 <p>{{ __('Orders') }}</p>
                             </a>
@@ -146,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="content">
+            <div class="content pb-4">
                 @yield('content')
             </div>
         </div>

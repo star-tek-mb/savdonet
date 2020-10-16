@@ -5,21 +5,31 @@
 @section('content')
 
 <div class="container-fluid">
-
-    <table id="products" class="table table-bordered dt-responsive dt-head-nowrap" style="width:100%">
-        <thead>
-            <th>{{ __('Photo') }}</th>
-            <th>{{ __('Title') }}</th>
-            <th>{{ __('Category') }}</th>
-            <th>{{ __('Supplier') }}</th>
-            <th>{{ __('Price') }}</th>
-            <th>{{ __('Stock') }}</th>
-            <th>{{ __('Action') }}</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">{{ __('Categories') }}</h3>
+            <div class="card-tools">
+                <a class="btn btn-tool bg-green" href="{{ route('backend.categories.create') }}"><i
+                        class="fas fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="card-body">
+            <table id="products" class="table table-bordered dt-responsive dt-head-nowrap" style="width:100%">
+                <thead>
+                    <th>{{ __('Photo') }}</th>
+                    <th>{{ __('Title') }}</th>
+                    <th>{{ __('Category') }}</th>
+                    <th>{{ __('Supplier') }}</th>
+                    <th>{{ __('Price') }}</th>
+                    <th>{{ __('Stock') }}</th>
+                    <th>{{ __('Views') }}</th>
+                    <th>{{ __('Action') }}</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -61,6 +71,10 @@ $(document).ready(function() {
                 name: 'stock'
             },
             {
+                data: 'views',
+                name: 'product.views'
+            },
+            {
                 data: 'action',
                 name: 'action',
                 className: 'dt-body-nowrap',
@@ -78,6 +92,7 @@ $(document).ready(function() {
 .dt-body-nowrap {
     white-space: nowrap;
 }
+
 table.dt-head-nowrap thead {
     white-space: nowrap;
 }

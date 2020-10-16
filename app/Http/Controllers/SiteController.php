@@ -14,7 +14,7 @@ class SiteController extends Controller
 
     public function index()
     {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories = Category::whereNull('parent_id')->orderBy('number')->get();
         return view('home', ['categories' => $categories]);
     }
 
@@ -27,21 +27,22 @@ class SiteController extends Controller
     }
 
     public function category($id, Request $request) {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories = Category::whereNull('parent_id')->orderBy('number')->get();
         $category = Category::findOrFail($id);
         $products = $this->paginateCollection($category->productsAll());
         return view('category', ['categories' => $categories, 'category' => $category, 'products' => $products]);
     }
 
     public function product($id) {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories = Category::whereNull('parent_id')->orderBy('number')->get();
         $product = Product::with('variations')->findOrFail($id);
         $values = Value::all()->load('option');
+        $product->increment('views');
         return view('product', ['categories' => $categories, 'product' => $product, 'values' => $values]);
     }
 
     public function search(Request $request) {
-        $categories = Category::whereNull('parent_id')->get();
+        $categories = Category::whereNull('parent_id')->orderBy('number')->get();
         $request->flash();
 
         $validator = Validator::make($request->all(), ['q' => 'required|string|min:2']);

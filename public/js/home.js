@@ -22125,7 +22125,11 @@ var render = function() {
       _c("p", { staticClass: "h5 card-title" }, [
         _vm._v("\n      " + _vm._s(_vm.__(_vm.product.title))),
         _c("span", { staticClass: "text-danger float-right" }, [
-          _vm._v(_vm._s(_vm.product.variations[0].price) + " сум")
+          _vm._v(
+            _vm._s(_vm.product.variations[0].price) +
+              " " +
+              _vm._s(_vm.__("currency"))
+          )
         ])
       ]),
       _vm._v(" "),

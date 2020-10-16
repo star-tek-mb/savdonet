@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="form-label">{{ __('Supplier') }}</label>
                             <select name="supplier_id" class="form-control">
-                            <option value="">{{ __('Not set') }}</option>
+                                <option value="">{{ __('Not set') }}</option>
                                 @foreach($suppliers as $supplier)
                                 <option value="{{ $supplier->id }}" @if ($product->supplier_id == $supplier->id)
                                     selected @endif>
@@ -86,21 +86,35 @@
                             <div id="media-dropzone" class="dropzone">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="form-label">{{ __('Values') }}</label>
+                            <div class="form-row">
+                                <div class="col">
+                                    <select class="form-control values" multiple="multiple" style="width: 100%;">
+                                        @foreach($options as $option)
+                                        <optgroup label="{{ $option->title }}" disabled>
+                                            @foreach($option->values as $value)
+                                            <option value="{{ $value->id }}">{{ $value->title }}</option>
+                                            @endforeach
+                                        </optgroup>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="add-variation btn btn-primary"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @foreach ($product->variations as $variation)
                 <div class="card variation">
                     <div class="card-header">
-                        <h3 class="card-title">{{ __('Variation') }}:
-                            @foreach ($variation->values as $variation_value_id)
-                            @foreach ($values as $value)
-                            @if ($value->id == $variation_value_id)
-                            {{ $value->title }}
-                            @endif
-                            @endforeach
-                            @if (!$loop->last) , @endif
-                            @endforeach
-                        </h3>
+                        <h3 class="card-title">{{ __('Variation') }}: {{ $variation->full_name }}</h3>
+                        <div class="card-tools">
+                            <button type="button" onclick="$(this).parent().parent().parent().remove();" class="btn btn-tool bg-red"><i class="fas fa-trash"></i></button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -109,6 +123,7 @@
                             </div>
                             <div class="col-9">
                                 <input type="hidden" name="variation[]" value="{{ $variation->id }}">
+                                <input type="hidden" name="values[]" value="{{ implode(',', $variation->values) }}">
                                 <div class="form-group">
                                     <label class="form-label">{{ __('Price') }}</label>
                                     <input name="price[]" type="number" class="form-control"
@@ -189,10 +204,120 @@ Dropzone.options.mediaDropzone = {
     },
 };
 $(document).ready(function() {
-    $('.options').select2();
     $('.sale-date').daterangepicker({
         locale: window.DatePickerLocale
     });
+});
+</script>
+@endpush
+
+@push('js')
+<script>
+$(document).ready(function() {
+    $('.options').select2();
+    $('.options').on('change', function() {
+        console.log('changed');
+        // get selected names
+        var selected_names = [];
+        var selected = $('option:selected', this).each(function(i, el) {
+            selected_names.push(el.innerHTML);
+        });
+        // disable values, match options and values
+        $('.values optgroup').each(function(i, el) {
+            if (!selected_names.includes($(el).attr('label'))) {
+                $(el).prop('disabled', true);
+            } else {
+                $(el).prop('disabled', false);
+            }
+        });
+        // trigger changes
+        $('.values').trigger('change.select2');
+    });
+    $('.values').select2();
+    $('.values').on('change', function() {
+        // do not select more than one option from optgroup
+        $('.values optgroup').each(function(i, el) {
+            var selected = $('option:selected', el);
+            if (selected.length > 1) {
+                $('option', el).prop('selected', false);
+            }
+        });
+        $('.values').trigger('change.select2');
+    });
+    $('.add-variation').on('click', function(e) {
+        // check if options and values count matched
+        if ($('.options option:selected').length != $('.values option:selected').length) {
+            Toastr.error("{{ __('Options count does not match values count') }}");
+            return;
+        }
+        // check if exists
+        var check = $('.variation input[type="hidden"][name="values[]"]');
+        for (var i = 0; i < check.length; i++) {
+            if ($(check[i]).val() != -1 && $(check[i]).val() == $('.values').val()) {
+                console.log('check_val ' + $(check[i]).val());
+                console.log('values_val ' + $('.values').val());
+                Toastr.error("{{ __('Variation exists') }}");
+                $('.values').val('').trigger('change');
+                return;
+            }
+        }
+        // get selected names
+        var selected_names = '';
+        var selected = $('.values option:selected');
+        selected.each(function(i, el) {
+            selected_names += $(el).text();
+            if (i != selected.length - 1) {
+                selected_names += ', ';
+            }
+        });
+        // append variation (TODO: normalize code)
+        $(`<div class="card variation">
+            <div class="card-header">
+                <h3 class="card-title">{{ __('Variation') }}: ` + selected_names + `</h3>
+                <div class="card-tools">
+                    <button type="button" onclick="$(this).parent().parent().parent().remove();" class="btn btn-tool bg-red"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <input type="hidden" name="variation[]" value="-1">
+                <input type="hidden" name="values[]" value="` +
+            $('.values').val() + `">
+                <div class="form-group">
+                    <label class="form-label">{{ __('Price') }}</label>
+                    <input name="price[]" type="number" class="form-control" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">{{ __('Stock') }}</label>
+                    <input name="stock[]" type="number" class="form-control" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label>{{ __('Photo') }}</label>
+                    <div class="custom-file">
+                        <input type="file" name="photo[]" class="custom-file" id="photovar` + $('.variation').length + `">
+                        <label class="custom-file-label" for="photovar` + $('.variation').length + `">{{ __('Choose file') }}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>{{ __('Sale') }}</label>
+                    <div class="row">
+                        <div class="col">
+                            <input name="sale_dates[]" type="text" class="sale-date form-control">
+                        </div>
+                        <div class="col">
+                            <input name="sale_price[]" type="number" class="form-control"
+                                placeholder="{{ __('Sale Price') }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`).insertBefore($('#add-button'));
+        window.FileInput.init(); // refresh FileInput list
+        $('.values').val('').trigger('change');
+        $('.sale-date:last').daterangepicker({
+            locale: window.DatePickerLocale
+        });
+    });
+    $('.options').trigger('change');
 });
 </script>
 @endpush

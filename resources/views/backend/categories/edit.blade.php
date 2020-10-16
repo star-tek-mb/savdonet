@@ -29,6 +29,10 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
+                    <label class="form-label">#</label>
+                    <input name="number" type="number" class="form-control" value="{{ $category->number }}">
+                </div>
+                <div class="form-group">
                     <label class="form-label">{{ __('Title') }}</label>
                     <div class="row">
                         @foreach(config('app.locales') as $locale)

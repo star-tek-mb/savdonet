@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasTranslations;
 
-    protected $fillable = ['category_id', 'title', 'description', 'options', 'supplier_id'];
+    protected $fillable = ['category_id', 'title', 'description', 'options', 'supplier_id', 'views'];
     public $translatable = ['title', 'description'];
     protected $casts = ['options' => 'array', 'media' => 'array'];
     protected $with = ['category'];

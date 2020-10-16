@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description'); // translatable
             $table->json('media')->nullable(); // array of images
             $table->text('seo')->nullable(); // maybe json, maybe text
-            $table->integer('views')->nullable(); // increment each time when presented
+            $table->integer('views')->nullable()->default(0); // increment each time when presented
             $table->string('status')->nullable(); // visible
             $table->timestamps();
         });

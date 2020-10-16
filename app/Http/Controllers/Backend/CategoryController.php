@@ -35,7 +35,8 @@ class CategoryController extends Controller
         Validator::make($request->all(), [
             'title' => 'required|array',
             'title.*' => 'required',
-            'photo' => 'nullable|image'
+            'photo' => 'nullable|image',
+            'number' => 'nullable|integer'
         ])->validate();
 
         $category = Category::findOrFail($id);
@@ -46,7 +47,8 @@ class CategoryController extends Controller
         }
         $category->fill([
             'parent_id' => $request->input('parent_id'),
-            'photo_url' => $photo_url
+            'photo_url' => $photo_url,
+            'number' => $request->input('number'),
         ]);
         $translations = $request->input('title');
         $category->setTranslations('title', $translations);
@@ -59,14 +61,16 @@ class CategoryController extends Controller
         Validator::make($request->all(), [
             'title' => 'required|array',
             'title.*' => 'required',
-            'photo' => 'required|image'
+            'photo' => 'required|image',
+            'number' => 'nullable|integer'
         ])->validate();
 
         $translations = $request->input('title');
         $photo_url = $request->file('photo')->store('upload', 'public');
         $category = new Category([
             'parent_id' => $request->input('parent_id'),
-            'photo_url' => $photo_url
+            'photo_url' => $photo_url,
+            'number' => $request->input('number')
         ]);
         $category->setTranslations('title', $translations);
         $category->save();

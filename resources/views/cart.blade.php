@@ -37,19 +37,19 @@
                                 class="count btn btn-sm btn-danger"><i class="fas fa-minus"></i></a>
                         </div>
                     </td>
-                    <td>{{ $cartItem['variation']->price }} сум</td>
-                    <td class="price" data-price="{{ $cartItem['variation']->price * $cartItem['quantity'] }}">
-                        {{ $cartItem['variation']->price * $cartItem['quantity'] }} сум
+                    <td>{{ $cartItem['variation']->price }} {{ __('currency') }}</td>
+                    <td>
+                        {{ $cartItem['variation']->price * $cartItem['quantity'] }} {{ __('currency') }}
                     </td>
                 </tr>
                 @endforeach
                 <tr>
-                    <td colspan="3">{{ __('Delivery Price') }}</td>
-                    <td id="delivery_price"></td>
+                    <td colspan="3">{{ __('Total') }}</td>
+                    <td>{{ $total }} {{ __('currency') }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3">{{ __('Total') }}</td>
-                    <td id="total_price"></td>
+                    <td colspan="3">{{ __('Delivery Price') }}</td>
+                    <td>{{ __('From') }} {{ $settings['delivery_price'] }} {{ __('currency') }}</td>
                 </tr>
             </tbody>
         </table>
@@ -69,53 +69,85 @@
         </div>
         @endif
         <h1 class="h3 py-4">{{ __('Make an Order') }}</h1>
-        <form method="POST" action="{{ route('order') }}">
-            @csrf
-            <div class="form-group">
-                <label class="form-label">{{ __('Shipping Method') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <select id="delivery_select" name="delivery" class="form-control">
-                    @foreach($delivery as $method)
-                    <option value="{{ $method }}">{{ __($method) }}</option>
-                    @endforeach
-                </select>
+        <ul class="nav nav-pills nav-fill my-4" id="order_method_tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="simple-tab" data-toggle="tab" href="#simple" role="tab"
+                    aria-controls="simple" aria-selected="true">{{ __('Simple order') }}</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="full-tab" data-toggle="tab" href="#full" role="tab" aria-controls="full"
+                    aria-selected="false">{{ __('Full order') }}</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="simple" role="tabpanel" aria-labelledby="simple-tab">
+                <form method="POST" action="{{ route('order') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Full name') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="fullname" type="text" required class="form-control"
+                            placeholder="{{ __('Full name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Phone') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="phone" type="text" class="form-control" required placeholder="+998XXXXXXXXX">
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="{{ __('Make an Order') }}">
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Full name') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <input name="fullname" type="text" required class="form-control" placeholder="{{ __('Full name') }}">
+            <div class="tab-pane" id="full" role="tabpanel" aria-labelledby="full-tab">
+                <form method="POST" action="{{ route('order') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Full name') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="fullname" type="text" required class="form-control"
+                            placeholder="{{ __('Full name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('E-Mail Address') }}</label>
+                        <input name="email" type="text" class="form-control" placeholder="mail@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Phone') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="phone" type="text" class="form-control" required placeholder="+998XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Region') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <select name="region" class="form-control">
+                            @foreach($regions as $region)
+                            <option value="{{ $region }}">{{ __($region) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('City') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="city" type="text" class="form-control" required placeholder="{{ __('City') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Address') }} (<span
+                                class="text-danger font-weight-bold">*</span>)</label>
+                        <input name="address" type="text" class="form-control" required
+                            placeholder="{{ __('Street, Apartment') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Comment') }}</label>
+                        <textarea name="comment" rows="6" class="form-control"
+                            placeholder="{{ __('Location orient, your home time') }}"></textarea>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="{{ __('Make an Order') }}">
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('E-Mail Address') }}</label>
-                <input name="email" type="text" class="form-control" placeholder="mail@example.com">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Phone') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <input name="phone" type="text" class="form-control" required placeholder="+998XXXXXXXXX">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Region') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <select name="region" class="form-control">
-                    @foreach($regions as $region)
-                    <option value="{{ $region }}">{{ __($region) }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('City') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <input name="city" type="text" class="form-control" required placeholder="{{ __('City') }}">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Address') }} (<span class="text-danger font-weight-bold">*</span>)</label>
-                <input name="address" type="text" class="form-control" required placeholder="{{ __('Street, Apartment') }}">
-            </div>
-            <div class="form-group">
-                <label class="form-label">{{ __('Comment') }}</label>
-                <textarea name="comment" rows="6" class="form-control"
-                    placeholder="{{ __('Location orient, your home time') }}"></textarea>
-            </div>
-            <div class="text-center">
-                <input type="submit" class="btn btn-primary" value="{{ __('Make an Order') }}">
-            </div>
-        </form>
+        </div>
     </div>
     @else
     <h4>{{ __('Cart is empty!') }}</h4>
@@ -126,27 +158,6 @@
 
 @push('js')
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-var prices = {
-@foreach ($delivery as $method)
-"{{ $method }}": {{ $settings['delivery_price_' . $method] }},
-@endforeach
-};
-function calc() {
-    var total = parseInt(prices[$('#delivery_select').val()]);
-    $('.price').each(function() {
-        total += parseInt($(this).data('price'));
-    });
-    $('#delivery_price').text(prices[$('#delivery_select').val()] + ' сум');
-    $('#total_price').text(total + ' сум');
-}
-$(document).ready(function() {
-    calc();
-    $('#delivery_select').on('change', function() {
-        calc();
-    });
-});
-</script>
 @endpush
 
 @push('css')

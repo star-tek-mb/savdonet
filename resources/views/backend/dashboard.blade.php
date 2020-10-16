@@ -61,7 +61,7 @@
             <td>{{ $order->name }}</td>
             <td>{{ $order->phone }}</td>
             <td>{{ __($order->region) }}</td>
-            <td>{{ $total }} сум</td>
+            <td>{{ $total }} {{ __('currency') }}</td>
             <td>
                 @include('backend.orders.datatables-action')
             </td>
@@ -86,7 +86,7 @@
             <td>
                 {{ $variation->product->title }} {{ $variation->full_name ? '(' . $variation->full_name . ')' : '' }}
             </td>
-            <td>{{ $variation->price }} сум</td>
+            <td>{{ $variation->price }} {{ __('currency') }}</td>
             <td>{{ $variation->stock }}</td>
             <td>
                 @include('backend.products.datatables-action', ['product' => $variation->product, 'delete' => false])

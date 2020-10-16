@@ -11,4 +11,12 @@ class Order extends Model
     public function products() {
         return $this->hasMany('App\Models\OrderProduct');
     }
+
+    public function getTotalAttribute() {
+        $total = $this->delivery_price ?? 0;
+        foreach ($this->products as $order_product) {
+            $total += $order_product->price * $order_product->quantity;
+        }
+        return $total;
+    }
 }
