@@ -58,7 +58,9 @@ $(document).ready(function() {
     $('#category').DataTable({
         responsive: true,
         language: window.DataTableLanguage,
-        columns: [{
+        columns: [
+            null,
+            {
                 width: '20%',
                 orderable: false,
                 searchable: false
