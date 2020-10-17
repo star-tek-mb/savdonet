@@ -65,11 +65,11 @@
         <h1>{{ __("Variations") }}</h1>
         @foreach ($product->variations as $variation)
         <div class="row mx-auto">
-            <div class="col-sm-12 col-md-4 my-sm-4">
+            <div class="col-sm-12 col-xl-4 my-sm-4">
                 <img src="{{ Storage::url($variation->photo_url) }}" class="mx-auto img-fluid"
                     alt="{{ $product->title }}" />
             </div>
-            <div class="col-sm-6 col-md-4 my-auto">
+            <div class="col-sm-6 col-xl-4 my-auto">
                 <p><b>{{ __("Stock") }}</b>: {{ $variation->stock }}</p>
                 <p><b>{{ __("Price") }}</b>: {{ $variation->price }} {{ __('currency') }}</p>
                 @foreach ($variation->values as $variation_value_id)
@@ -80,14 +80,18 @@
                 @endforeach
                 @endforeach
             </div>
-            <div class="col-sm-6 col-md-4 my-auto">
+            <div class="col-sm-6 col-xl-4 my-auto">
                 <div class="col text-right my-2">
                     <input type="number" id="variation{{ $variation->id }}" class="form-control" value="1">
                 </div>
                 <div class="col my-2">
-                    <a class="btn btn-primary w-100"
-                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $variation->id) }}?qty=' + $('#variation{{ $variation->id }}').val();"
-                        href="{{ route('cart.store', $variation->id) }}">{{ __("To Cart") }}</a>
+                    <a class="btn btn-primary"
+                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?order&qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
+                        href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Place an Order") }}</a>
+                    <a class="btn btn-primary"
+                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
+                        href="{{ route('cart.store', $product->variations[0]->id) }}"><i
+                            class="fas fa-shopping-cart"></i></a>
                 </div>
             </div>
         </div>
@@ -96,15 +100,19 @@
     @else
     <div class="row my-4">
         <p class="col-4 my-auto text-right"><b>{{ __("Stock") }}</b>:
-            {{ $product->variations[0]->stock }}<br><b>{{ __("Price") }}</b>: {{ $product->variations[0]->price }} {{ __('currency') }}
+            {{ $product->variations[0]->stock }}<br><b>{{ __("Price") }}</b>: {{ $product->variations[0]->price }}
+            {{ __('currency') }}
         </p>
         <div class="col-4 text-right my-2">
             <input type="number" id="variation{{ $product->variations[0]->id }}" class="form-control" value="1">
         </div>
         <div class="col-4 my-2">
             <a class="btn btn-primary"
+                onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?order&qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
+                href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Order") }}</a>
+            <a class="btn btn-primary"
                 onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
-                href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("To Cart") }}</a>
+                href="{{ route('cart.store', $product->variations[0]->id) }}"><i class="fas fa-shopping-cart"></i></a>
         </div>
     </div>
     @endif

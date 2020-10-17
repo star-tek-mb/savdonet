@@ -84,6 +84,7 @@
                             </div>
                             <div class="col-9">
                                 <input type="hidden" name="variation[]" value="{{ $product->variations[0]->id }}">
+                                <input type="hidden" name="variation[]" value="{{ $product->variations[0]->values }}">
                                 <div class="form-group">
                                     <label class="form-label">{{ __('Price') }}</label>
                                     <input name="price[]" type="number" class="form-control"

@@ -85,6 +85,9 @@ class CartController extends Controller
             unset($cart[$id]);
         }
         session()->put('cart', $cart);
+        if ($request->has('order')) {
+            return redirect()->route('cart.index');
+        }
         return redirect()->back()->with('status', __('Product added to your cart!'));
     }
 
