@@ -114,6 +114,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('backend.pages.index') }}"
+                                class="nav-link {{ strpos(Route::currentRouteName(), 'backend.pages') !== false ? 'active' : '' }}">
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>{{ __('Pages') }}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('backend.suppliers.index') }}"
                                 class="nav-link {{ strpos(Route::currentRouteName(), 'backend.suppliers') !== false ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-industry"></i>

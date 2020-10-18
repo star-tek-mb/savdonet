@@ -27,6 +27,8 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('categories', 'CategoryController')->except(['show']);
     Route::resource('suppliers', 'SupplierController');
+    Route::resource('pages', 'PageController')->except(['show']);
+    Route::post('/pages/{id}/uploadImage', 'PageController@uploadImage')->name('pages.uploadImage');
     Route::resource('orders', 'OrderController')->except(['delete']);
     Route::name('options.')->prefix('options')->group(function() {
         Route::get('/', 'OptionController@index')->name('index');
@@ -63,6 +65,7 @@ Route::prefix('{locale}')->where(['locale' => '(' . implode('|', config('app.loc
     Route::get('/cart/clear', 'CartController@clear')->name('cart.clear');
     Route::get('/cart/{id}', 'CartController@store')->name('cart.store');
     Route::post('/order', 'CartController@makeOrder')->name('order');
+    Route::get('/{slug}', 'SiteController@page')->name('page');
 });
 
 Route::get('/', function() {

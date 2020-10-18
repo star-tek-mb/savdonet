@@ -114,6 +114,7 @@ $(document).ready(function() {
             null,
             null,
             {
+                "width": "10%",
                 orderable: false,
                 searchable: false,
                 responsivePriority: 1,

@@ -2060,8 +2060,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["product"]
+  props: ["product"],
+  methods: {
+    get_date: function get_date(date) {
+      var dateParts = date.split("-");
+      return new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    },
+    get_price: function get_price(product) {
+      var min = 999999999;
+      var max = 0;
+
+      for (var i = 0; i < product.variations.length; i++) {
+        var p = product.variations[i];
+        var price = p.price;
+
+        if (price < min) {
+          min = price;
+        }
+
+        if (price > max) {
+          max = price;
+        }
+      }
+
+      return [min, max];
+    },
+    get_sale_price: function get_sale_price(product) {
+      var min = 999999999;
+      var max = 0;
+
+      for (var i = 0; i < product.variations.length; i++) {
+        var p = product.variations[i];
+        var price = p.sale_price;
+        if (!p.sale_price) return null;
+        var sale_start = this.get_date(product.variations[i].sale_start).getTime();
+        var sale_end = this.get_date(product.variations[i].sale_end).getTime();
+        var now = Date.now();
+
+        if (sale_start > now || now > sale_end) {
+          return null;
+        }
+
+        if (price < min) {
+          min = price;
+        }
+
+        if (price > max) {
+          max = price;
+        }
+      }
+
+      return [min, max];
+    }
+  }
 });
 
 /***/ }),
@@ -22122,18 +22182,96 @@ var render = function() {
     }),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("p", { staticClass: "h5 card-title" }, [
-        _vm._v("\n      " + _vm._s(_vm.__(_vm.product.title))),
-        _c("span", { staticClass: "text-danger float-right" }, [
-          _vm._v(
-            _vm._s(_vm.product.variations[0].price) +
-              " " +
-              _vm._s(_vm.__("currency"))
-          )
-        ])
-      ]),
+      _c(
+        "p",
+        { staticClass: "h5 card-title" },
+        [
+          _vm._v("\n      " + _vm._s(_vm.__(_vm.product.title)) + "\n      "),
+          _vm.get_sale_price(_vm.product)
+            ? [
+                _vm.get_price(_vm.product)[0] == _vm.get_price(_vm.product)[1]
+                  ? _c("del", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_price(_vm.product)[0]) +
+                          " " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.get_price(_vm.product)[0] != _vm.get_price(_vm.product)[1]
+                  ? _c("del", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_price(_vm.product)[0]) +
+                          " - " +
+                          _vm._s(_vm.get_price(_vm.product)[1]) +
+                          "  " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm.get_sale_price(_vm.product)[0] ==
+                _vm.get_sale_price(_vm.product)[1]
+                  ? _c("span", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_sale_price(_vm.product)[0]) +
+                          " " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm.get_sale_price(_vm.product)[0] !=
+                    _vm.get_sale_price(_vm.product)[1]
+                  ? _c("span", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_sale_price(_vm.product)[0]) +
+                          " - " +
+                          _vm._s(_vm.get_sale_price(_vm.product)[1]) +
+                          "  " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm._e()
+              ]
+            : [
+                _vm.get_price(_vm.product)[0] == _vm.get_price(_vm.product)[1]
+                  ? _c("span", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_price(_vm.product)[0]) +
+                          " " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.get_price(_vm.product)[0] != _vm.get_price(_vm.product)[1]
+                  ? _c("span", { staticClass: "text-danger float-right" }, [
+                      _vm._v(
+                        _vm._s(_vm.get_price(_vm.product)[0]) +
+                          " - " +
+                          _vm._s(_vm.get_price(_vm.product)[1]) +
+                          "  " +
+                          _vm._s(_vm.__("currency"))
+                      )
+                    ])
+                  : _vm._e()
+              ]
+        ],
+        2
+      ),
       _vm._v(" "),
-      _c("p", [_vm._v(_vm._s(_vm.trunc(_vm.__(_vm.product.description), 200)))])
+      _c("p", [
+        _vm._v(
+          _vm._s(
+            _vm._f("trunc")(
+              _vm._f("strip")(_vm.__(_vm.product.description)),
+              200
+            )
+          )
+        )
+      ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "mb-4 mr-4 text-right" }, [
@@ -34414,14 +34552,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.__ = function (str) {
   return window.loaded_lang[str] || str;
 };
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.trunc = function (str, num) {
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('trunc', function (str, num) {
   if (str.length > num) {
     return str.slice(0, num) + "...";
   } else {
     return str;
   }
-};
-
+});
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('strip', function (value) {
+  var div = document.createElement("div");
+  div.innerHTML = value;
+  var text = div.textContent || "";
+  return text;
+});
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default.a);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('menu-component', __webpack_require__(/*! ./vue/menu-component.vue */ "./resources/js/vue/menu-component.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('submenu-component', __webpack_require__(/*! ./vue/submenu-component.vue */ "./resources/js/vue/submenu-component.vue")["default"]);

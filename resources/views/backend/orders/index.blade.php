@@ -7,17 +7,14 @@
 <div class="container-fluid">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">{{ __('Categories') }}</h3>
-            <div class="card-tools">
-                <a class="btn btn-tool bg-green" href="{{ route('backend.categories.create') }}"><i
-                        class="fas fa-plus"></i></a>
-            </div>
+            <h3 class="card-title">{{ __('Orders') }}</h3>
         </div>
         <div class="card-body">
             <ul id="buttons" class="nav nav-pills nav-fill pb-4">
                 @foreach ($statuses as $status)
                 <li class="nav-item">
-                    <a class="nav-link" data-name="{{ $status }}">{{ __($status) }}</a>
+                    <a class="nav-link btn" data-name="{{ $status }}">{{ __($status) }}</a>
+                    <span>({{ $counts[$loop->index] }}) - {{ $totals[$loop->index] }} {{ __('currency') }}</span>
                 </li>
                 @endforeach
             </ul>
@@ -121,6 +118,7 @@ $(document).ready(function() {
             table.search($(this).data('name')).draw();
         }
     });
+    $('#orders_filter').hide();
 });
 </script>
 @endpush

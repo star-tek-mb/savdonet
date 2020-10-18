@@ -8,6 +8,7 @@ try {
     require('datatables.net-responsive-bs4/js/responsive.bootstrap4');
     require('bootstrap-switch/dist/js/bootstrap-switch');
     require('select2/dist/js/select2.full');
+    require('summernote/dist/summernote-bs4');
     window.Toastr = require('toastr/toastr');
     window.FileInput = require('bs-custom-file-input');
     require('daterangepicker');

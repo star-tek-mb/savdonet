@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="card-body">
-            <table id="category" class="table table-bordered dt-responsive" style="width:100%">
+            <table id="categories" class="table table-bordered dt-responsive" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -55,7 +55,7 @@
 @push('js')
 <script>
 $(document).ready(function() {
-    $('#category').DataTable({
+    $('#categories').DataTable({
         responsive: true,
         language: window.DataTableLanguage,
         columns: [

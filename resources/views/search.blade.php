@@ -15,10 +15,7 @@
         </ul>
     </div>
     @endif
-    <h1 class="mb-4">{{ __('Search') }}</h1>
-    @if (count($results) <= 0)
-    <p class="h3">{{ __('Nothing found!') }}</p>
-    @else
+    <h1 class="mb-4">{{ __('Search') }} - {{ __('found_matches', ['value' => count($results)]) }}</h1>
     @foreach ($results as $result)
     <div class="row mb-4">
         <div class="col-3">
@@ -27,12 +24,11 @@
         </div>
         <div class="col-9">
             <p>{{ $result->title }}</p>
-            <p>{{ \Illuminate\Support\Str::limit($result->description, 200) }}</p>
+            <p>{{ \Illuminate\Support\Str::limit(strip_tags($result->description), 200) }}</p>
         </div>
     </div>
     @endforeach
     {{ $results->appends(request()->input())->links() }}
-    @endif
 </div>
 
 @endsection

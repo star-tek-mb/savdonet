@@ -37,9 +37,9 @@
                                 class="count btn btn-sm btn-danger"><i class="fas fa-minus"></i></a>
                         </div>
                     </td>
-                    <td>{{ $cartItem['variation']->price }} {{ __('currency') }}</td>
+                    <td>@include('product-variation-price', ['variation' => $cartItem['variation']])</td>
                     <td>
-                        {{ $cartItem['variation']->price * $cartItem['quantity'] }} {{ __('currency') }}
+                        {{ $cartItem['variation']->price_with_sale * $cartItem['quantity'] }} {{ __('currency') }}
                     </td>
                 </tr>
                 @endforeach

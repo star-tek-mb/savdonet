@@ -12,6 +12,10 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ __('Supplier') }}</h3>
+            <div class="card-tools">
+                <a href="{{ route('backend.suppliers.edit', $supplier->id) }}" class="btn btn-tool bg-green"><i
+                        class="fas fa-edit"></i></a>
+            </div>
         </div>
         <div class="card-body">
             <p><b>{{ __('Full name') }}</b>: {{ $supplier->name }}</p>
@@ -39,7 +43,8 @@
                     @foreach ($supplier->products as $product)
                     @foreach ($product->variations as $variation)
                     <tr>
-                        <td>{{ $variation->product->title }} {{ $variation->full_name ?  '(' . $variation->full_name . ')' : '' }}</td>
+                        <td>{{ $variation->product->title }}
+                            {{ $variation->full_name ?  '(' . $variation->full_name . ')' : '' }}</td>
                         <td>{{ $variation->product->category->full_name }}</td>
                         <td>{{ $variation->stock }}</td>
                         <td>{{ $variation->price }}</td>
@@ -85,6 +90,7 @@ $(document).ready(function() {
 .dt-body-nowrap {
     white-space: nowrap;
 }
+
 table.dt-head-nowrap thead {
     white-space: nowrap;
 }

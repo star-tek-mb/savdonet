@@ -21,11 +21,11 @@
                 <img src="{{ Storage::url($product->variations[0]->photo_url) }}" class="card-img-top"
                     alt="{{ $product->title }}" />
                 <div class="card-body">
-                    <h5 class="card-title no-letter-spacing">
-                        {{ $product->title }}<span class="text-danger float-right">{{ $product->variations[0]->price }}
-                        {{ __('currency') }}</span>
-                    </h5>
-                    <p>{{ \Illuminate\Support\Str::limit($product->description, 200) }}</p>
+                    <p class="h5 card-title">
+                        {{ $product->title }}
+                        @include('product-price', ['product' => $product])
+                    </p>
+                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($product->description), 200) }}</p>
                 </div>
                 <div class="mb-4 mr-4 text-right">
                     @if (count($product->variations) == 1)

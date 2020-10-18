@@ -28,6 +28,10 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{ __('Edit Product') }}</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('product.show', $product->id) }}" class="btn btn-tool bg-blue"><i
+                                    class="fas fa-eye"></i></a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -60,24 +64,36 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Title') }}</label>
-                            <div class="row">
-                                @foreach(config('app.locales') as $locale)
-                                <div class="col-12">
-                                    <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                        placeholder="{{ __($locale) }}"
-                                        value="{{ $product->getTranslation('title', $locale) }}">
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Description') }}</label>
+                        <ul class="nav nav-pills nav-fill my-4" id="language_tabs" role="tablist">
                             @foreach(config('app.locales') as $locale)
-                            <div class="py-2">
-                                <textarea name="description[{{ $locale }}]" rows="6"
-                                    class="form-control">{{ $product->getTranslation('description', $locale) }}</textarea>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link @if ($loop->first) active @endif" id="{{ $locale }}-tab"
+                                    data-toggle="tab" href="#{{ $locale }}" role="tab" aria-controls="{{ $locale }}"
+                                    aria-selected="true">{{ __($locale) }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content">
+                            @foreach(config('app.locales') as $locale)
+                            <div class="tab-pane @if ($loop->first) active @endif" id="{{ $locale }}" role="tabpanel"
+                                aria-labelledby="{{ $locale }}-tab">
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Title') }}</label>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input name="title[{{ $locale }}]" type="text" class="form-control"
+                                                placeholder="{{ __($locale) }}"
+                                                value="{{ $product->getTranslation('title', $locale) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Description') }}</label>
+                                    <div class="py-2">
+                                        <textarea name="description[{{ $locale }}]" rows="6"
+                                            class="form-control">{{ $product->getTranslation('description', $locale) }}</textarea>
+                                    </div>
+                                </div>
                             </div>
                             @endforeach
                         </div>
@@ -113,7 +129,8 @@
                     <div class="card-header">
                         <h3 class="card-title">{{ __('Variation') }}: {{ $variation->full_name }}</h3>
                         <div class="card-tools">
-                            <button type="button" onclick="$(this).parent().parent().parent().remove();" class="btn btn-tool bg-red"><i class="fas fa-trash"></i></button>
+                            <button type="button" onclick="$(this).parent().parent().parent().remove();"
+                                class="btn btn-tool bg-red"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -147,11 +164,13 @@
                                     <label>{{ __('Sale') }}</label>
                                     <div class="row">
                                         <div class="col">
-                                            <input name="sale_dates[]" type="text" class="sale-date form-control">
+                                            <input name="sale_dates[]" type="text" class="sale-date form-control"
+                                                value="@if ($variation->sale_start && $variation->sale_end) {{ $variation->sale_start->format('d.m.Y') }} - {{ $variation->sale_end->format('d.m.Y') }} @endif">
                                         </div>
                                         <div class="col">
                                             <input name="sale_price[]" type="number" class="form-control"
-                                                placeholder="{{ __('Sale Price') }}">
+                                                placeholder="{{ __('Sale Price') }}"
+                                                value="{{ $variation->sale_price }}">
                                         </div>
                                     </div>
                                 </div>
@@ -214,6 +233,18 @@ $(document).ready(function() {
 @push('js')
 <script>
 $(document).ready(function() {
+    $('textarea').summernote({
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+    });
     $('.options').select2();
     $('.options').on('change', function() {
         console.log('changed');

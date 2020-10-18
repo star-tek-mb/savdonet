@@ -208,7 +208,7 @@ class ProductController extends Controller
                 'photo_url' => $photo_url
             ]);
             // fill sale price
-            if ($request->input('sale_price')[$i]) {
+            if ($request->input('sale_dates')[$i]) {
                 // parse date range TODO: validate?
                 $sale_dates = explode(' - ', $request->input('sale_dates')[$i]);
                 $sale_start = Carbon::createFromFormat('d.m.Y', $sale_dates[0]);

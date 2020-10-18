@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants;
 use App\Models\ProductVariation;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\Value;
 use App\Models\Setting;
+use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,32 +17,10 @@ use Illuminate\Validation\Rule;
 class CartController extends Controller
 {
 
-    // TODO?
-    const regions = array(
-        'andijan',
-        'bukhara',
-        'jizzakh',
-        'qashqadaryo',
-        'navoiy',
-        'namangan',
-        'samarqand',
-        'surxondaryo',
-        'sirdaryo',
-        'tashkent',
-        'fergana',
-        'xorazm',
-        'karakalpakstan'
-    );
-
-    const delivery = array(
-        'office',
-        'courier',
-        'courier_tashkent'
-    );
-
     public function index()
     {
         $settings = Setting::all()->pluck('value', 'key')->toArray();
+        $pages = Page::orderBy('number')->get();
         $categories = Category::whereNull('parent_id')->get();
         $values = Value::all();
         $cart = session()->get('cart') ?? array();
@@ -54,7 +34,7 @@ class CartController extends Controller
                 session()->put('cart', $cart);
                 break;
             } else {
-                $total += $var->price;
+                $total += $var->price_with_sale;
             }
         }
 
@@ -63,8 +43,9 @@ class CartController extends Controller
             'total' => $total,
             'values' => $values,
             'categories' => $categories,
-            'regions' => CartController::regions,
-            'delivery' => CartController::delivery,
+            'pages' => $pages,
+            'regions' => Constants::REGIONS,
+            'delivery' => Constants::DELIVERY_METHODS,
             'settings' => $settings
         ]);
     }
@@ -80,6 +61,7 @@ class CartController extends Controller
         $cart[$id] = [
             'variation' => $variation,
             'quantity' => $quantity,
+            'price' => $variation->price_with_sale
         ];
         if ($quantity <= 0) {
             unset($cart[$id]);
@@ -106,12 +88,12 @@ class CartController extends Controller
             'comment' => 'nullable|string|max:1024',
             'region' => [
                 'nullable',
-                Rule::in(CartController::regions)
+                Rule::in(Constants::REGIONS)
             ],
             'city' => 'nullable|string|max:256',
             'delivery' => [
                 'nullable',
-                Rule::in(CartController::delivery)
+                Rule::in(Constants::DELIVERY_METHODS)
             ]
         ])->validate();
 
@@ -137,7 +119,7 @@ class CartController extends Controller
             OrderProduct::create([
                 'order_id' => $order->id,
                 'product_variation_id' => $cartItem['variation']->id,
-                'price' => $cartItem['variation']->price,
+                'price' => $cartItem['price'],
                 'quantity' => $cartItem['quantity']
             ]);
             $cartItem['variation']->decrement('stock', $cartItem['quantity']);

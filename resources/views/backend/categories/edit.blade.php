@@ -22,6 +22,9 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ __('Edit Category') }}</h3>
+            <div class="card-tools">
+                <a href="{{ route('category.show', $category->id) }}" class="btn btn-tool bg-blue"><i class="fas fa-eye"></i></a>
+            </div>
         </div>
         <div class="card-body">
             <form action="{{ route('backend.categories.update', $category->id) }}" method="POST"

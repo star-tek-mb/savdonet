@@ -27,9 +27,9 @@
             </ul>
             <h5 class="text-center h4 py-2">{{ __('Shop') }}</h5>
             <ul class="sidebar-menu">
-                <li><a href="#">Пользовательское соглашение</a></li>
-                <li><a href="#">Доставка</a></li>
-                <li><a href="#">О нас</a></li>
+                @foreach ($pages as $page)
+                <li><a href="{{ route('page', $page->slug) }}">{{ $page->title }}</a></li>
+                @endforeach
             </ul>
         </div>
         <div id="page-content-wrapper">
@@ -92,8 +92,26 @@
                 @yield('content')
             </main>
         </div>
-        <footer class="navbar bg-dark text-light">
-            Copyright
+        <footer class="p-4 bg-dark text-light">
+            <div class="row container mx-auto">
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                    <ul class="list-group">
+                        <li class="nav-link p-0"><b>{{ __('Shop') }}</b></li>
+                        @foreach ($pages as $page)
+                        <li class="nav-link p-0"><a href="{{ route('page', $page->slug) }}" class="text-light">{{ $page->title }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                    <b>Контакты</b>:<br> +998 90 6653323
+                </div>
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                    <b>Подпишитесь на нас</b><br>
+                    <a class="fab fa-facebook text-light h4"></a>
+                    <a class="fab fa-telegram text-light h4"></a>
+                    <a class="fab fa-instagram text-light h4"></a>
+                </div>
+            </div>
         </footer>
     </div>
     @stack('js')

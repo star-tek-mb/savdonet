@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Value;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class ProductVariation extends Model
 {
@@ -34,5 +35,13 @@ class ProductVariation extends Model
             }
         }
         return $res;
+    }
+
+    public function getPriceWithSaleAttribute() {
+        $now = Carbon::now();
+        if ($this->sale_start && $this->sale_end && $this->sale_start->lt($now) && $this->sale_end->gt($now) && $this->sale_price) {
+            return $this->sale_price;
+        }
+        return $this->price;
     }
 }

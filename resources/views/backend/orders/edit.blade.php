@@ -13,6 +13,9 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">{{ __('Edit Order') }}</h3>
+            <div class="card-tools">
+                <a href="{{ route('backend.orders.show', $order->id) }}" class="btn btn-tool bg-blue"><i class="fas fa-eye"></i></a>
+            </div>
         </div>
         <div class="card-body">
             <form action="{{ route('backend.orders.update', $order->id) }}" method="POST" enctype="multipart/form-data">

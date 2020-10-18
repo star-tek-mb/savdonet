@@ -28,6 +28,10 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">{{ __('Edit Product') }}</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('product.show', $product->id) }}" class="btn btn-tool bg-blue"><i
+                                    class="fas fa-eye"></i></a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -51,24 +55,36 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Title') }}</label>
-                            <div class="row">
-                                @foreach(config('app.locales') as $locale)
-                                <div class="col-12">
-                                    <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                        placeholder="{{ __($locale) }}"
-                                        value="{{ $product->getTranslation('title', $locale) }}">
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Description') }}</label>
+                        <ul class="nav nav-pills nav-fill my-4" id="language_tabs" role="tablist">
                             @foreach(config('app.locales') as $locale)
-                            <div class="py-2">
-                                <textarea name="description[{{ $locale }}]" rows="6"
-                                    class="form-control">{{ $product->getTranslation('description', $locale) }}</textarea>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link @if ($loop->first) active @endif" id="{{ $locale }}-tab"
+                                    data-toggle="tab" href="#{{ $locale }}" role="tab" aria-controls="{{ $locale }}"
+                                    aria-selected="true">{{ __($locale) }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content">
+                            @foreach(config('app.locales') as $locale)
+                            <div class="tab-pane @if ($loop->first) active @endif" id="{{ $locale }}" role="tabpanel"
+                                aria-labelledby="{{ $locale }}-tab">
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Title') }}</label>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input name="title[{{ $locale }}]" type="text" class="form-control"
+                                                placeholder="{{ __($locale) }}"
+                                                value="{{ $product->getTranslation('title', $locale) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Description') }}</label>
+                                    <div class="py-2">
+                                        <textarea name="description[{{ $locale }}]" rows="6"
+                                            class="form-control">{{ $product->getTranslation('description', $locale) }}</textarea>
+                                    </div>
+                                </div>
                             </div>
                             @endforeach
                         </div>
@@ -84,7 +100,8 @@
                             </div>
                             <div class="col-9">
                                 <input type="hidden" name="variation[]" value="{{ $product->variations[0]->id }}">
-                                <input type="hidden" name="values[]" value="{{ implode(',', $product->variations[0]->values) }}">
+                                <input type="hidden" name="values[]"
+                                    value="{{ implode(',', $product->variations[0]->values) }}">
                                 <div class="form-group">
                                     <label class="form-label">{{ __('Price') }}</label>
                                     <input name="price[]" type="number" class="form-control"
@@ -108,7 +125,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <input name="sale_dates[]" type="text" class="sale-date form-control"
-                                                value="@if ($product->variations[0]->sale_start and $product->variations[0]->sale_end) {{ $product->variations[0]->sale_start->format('d.m.Y') }} - {{ $product->variations[0]->sale_end->format('d.m.Y') }} @endif">
+                                                value="@if ($product->variations[0]->sale_start && $product->variations[0]->sale_end) {{ $product->variations[0]->sale_start->format('d.m.Y') }} - {{ $product->variations[0]->sale_end->format('d.m.Y') }} @endif">
                                         </div>
                                         <div class="col">
                                             <input name="sale_price[]" type="number" class="form-control"
@@ -165,6 +182,18 @@ Dropzone.options.mediaDropzone = {
     },
 };
 $(document).ready(function() {
+    $('textarea').summernote({
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+    });
     $('.sale-date').daterangepicker({
         locale: window.DatePickerLocale
     });

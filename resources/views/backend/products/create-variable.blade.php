@@ -56,23 +56,35 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Title') }}</label>
-                            <div class="row">
-                                @foreach(config('app.locales') as $locale)
-                                <div class="col-12">
-                                    <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                        placeholder="{{ __($locale) }}">
-                                </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">{{ __('Description') }}</label>
+                        <ul class="nav nav-pills nav-fill my-4" id="language_tabs" role="tablist">
                             @foreach(config('app.locales') as $locale)
-                            <div class="py-2">
-                                <textarea name="description[{{ $locale }}]" rows="6"
-                                    class="form-control">{{ __($locale) }}</textarea>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link @if ($loop->first) active @endif" id="{{ $locale }}-tab"
+                                    data-toggle="tab" href="#{{ $locale }}" role="tab" aria-controls="{{ $locale }}"
+                                    aria-selected="true">{{ __($locale) }}</a>
+                            </li>
+                            @endforeach
+                        </ul>
+                        <div class="tab-content">
+                            @foreach(config('app.locales') as $locale)
+                            <div class="tab-pane @if ($loop->first) active @endif" id="{{ $locale }}" role="tabpanel"
+                                aria-labelledby="{{ $locale }}-tab">
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Title') }}</label>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <input name="title[{{ $locale }}]" type="text" class="form-control"
+                                                placeholder="{{ __($locale) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">{{ __('Description') }}</label>
+                                    <div class="py-2">
+                                        <textarea name="description[{{ $locale }}]" rows="6"
+                                            class="form-control">{{ __($locale) }}</textarea>
+                                    </div>
+                                </div>
                             </div>
                             @endforeach
                         </div>
@@ -110,6 +122,18 @@
 @push('js')
 <script>
 $(document).ready(function() {
+    $('textarea').summernote({
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+    });
     $('.options').select2();
     $('.options').on('change', function() {
         // clear variations, we are making option changes

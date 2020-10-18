@@ -13,7 +13,7 @@
         <div class="card-header">
             <h3 class="card-title">{{ __('Order Details') }}</h3>
             <div class="card-tools">
-                <a href="{{ route('backend.orders.edit', $order->id) }}" class="btn btn-tool bg-green"><i class="fas fa-pen"></i></a>
+                <a href="{{ route('backend.orders.edit', $order->id) }}" class="btn btn-tool bg-green"><i class="fas fa-edit"></i></a>
             </div>
         </div>
         <div class="card-body">
