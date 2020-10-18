@@ -4,8 +4,7 @@
     "/css/backend.css": "/css/backend.css",
     "/js/backend.js": "/js/backend.js",
     "/js/home.js": "/js/home.js",
-    "/lang/ru.json": "/lang/ru.json",
     "/lang/en.json": "/lang/en.json",
-    "/lang/uz.json": "/lang/uz.json",
-    "/lang/oz.json": "/lang/oz.json"
+    "/lang/oz.json": "/lang/oz.json",
+    "/lang/ru.json": "/lang/ru.json"
 }

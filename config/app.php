@@ -83,7 +83,6 @@ return [
     'locale' => 'ru',
     'locales' => [
         'ru', // русский
-        'uz', // узбек
         'oz' // o`zbek
     ],
 
