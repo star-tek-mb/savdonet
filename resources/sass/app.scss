@@ -21,14 +21,19 @@
 
 #app {
   overflow-x: hidden;
+  display: flex;
   position: relative;
-  min-height: 100vh;
 }
 
 .navbar-nav {
   flex-direction: row;
   > .dropdown > .btn {
-    padding: 0.75rem 0.75rem;
+    padding: 0.75rem 0.25rem;
+    font-size: 1.2rem;
+  }
+  > .btn {
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -47,12 +52,10 @@ i.fas {
   flex-shrink: 0;
   transition: margin .25s ease-out;
   overflow-y: scroll;
-  height: 100vh;
-  padding-bottom: 6rem;
 }
 
 #sidebar-wrapper .sidebar-heading {
-  padding: 2.125rem 1rem;
+  padding: 2.2rem 1rem;
   font-size: 1.2rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
   margin-bottom: 20px;
@@ -81,13 +84,10 @@ i.fas {
 
 #page-content-wrapper {
   min-width: 100vw;
-  padding-bottom: 6rem;
-}
-
-footer {
-  position: absolute !important;
-  bottom: 0;
-  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
 }
 
 #app.toggled #sidebar-wrapper {
