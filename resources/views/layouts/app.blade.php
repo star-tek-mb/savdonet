@@ -33,10 +33,10 @@
             </ul>
         </div>
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-dark bg-primary">
+            <nav class="navbar navbar-dark bg-primary px-0">
                 <div class="container">
                     <a class="navbar-brand" href="{{ route('home') }}">
-                        {{ config('app.name') }}
+                        Savdonet
                     </a>
                     <div class="navbar-nav ml-auto">
                         <div class="dropdown">
