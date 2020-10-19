@@ -35,7 +35,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-dark bg-primary px-0">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
+                    <a class="navbar-brand mr-0" href="{{ route('home') }}">{{ config('app.name') }}</a>
                     <div class="navbar-nav ml-auto">
                         <div class="dropdown">
                             <button class="btn dropdown-toggle text-white" type="button" id="languageMenu"
