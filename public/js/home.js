@@ -2107,13 +2107,18 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i = 0; i < product.variations.length; i++) {
         var p = product.variations[i];
-        var price = p.sale_price || p.price;
-        var sale_start = this.get_date(product.variations[i].sale_start).getTime();
-        var sale_end = this.get_date(product.variations[i].sale_end).getTime();
+        var price = p.sale_price;
         var now = Date.now();
 
-        if (sale_start > now || now > sale_end) {
-          return null;
+        if (!p.sale_price || !product.variations[i].sale_start || !product.variations[i].sale_start) {
+          price = p.price;
+        } else {
+          var sale_start = this.get_date(product.variations[i].sale_start).getTime();
+          var sale_end = this.get_date(product.variations[i].sale_end).getTime();
+
+          if (sale_start > now || now > sale_end) {
+            price = p.price;
+          }
         }
 
         if (price < min) {
