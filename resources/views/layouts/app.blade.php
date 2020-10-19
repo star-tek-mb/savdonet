@@ -35,9 +35,7 @@
         <div id="page-content-wrapper">
             <nav class="navbar navbar-dark bg-primary px-0">
                 <div class="container">
-                    <a class="navbar-brand" href="{{ route('home') }}">
-                        Savdonet
-                    </a>
+                    <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
                     <div class="navbar-nav ml-auto">
                         <div class="dropdown">
                             <button class="btn dropdown-toggle text-white" type="button" id="languageMenu"
@@ -92,7 +90,7 @@
                 @yield('content')
             </main>
             <div style="flex-grow:1"></div>
-            <div class="p-4 bg-dark text-light">
+            <div class="p-2 bg-dark text-light">
                 <div class="row container mx-auto">
                     <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
                         <ul class="list-group">

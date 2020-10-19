@@ -16875,12 +16875,12 @@ readers do not read off random characters that represent icons */
 }
 
 .navbar-nav > .dropdown > .btn {
-  padding: 0.75rem 0.25rem;
+  padding: 0.75rem 0;
   font-size: 1rem;
 }
 
 .navbar-nav > .btn {
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem;
   font-size: 1rem;
 }
 
