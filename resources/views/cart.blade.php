@@ -39,17 +39,17 @@
                     </td>
                     <td>@include('product-variation-price', ['variation' => $cartItem['variation']])</td>
                     <td>
-                        {{ $cartItem['variation']->price_with_sale * $cartItem['quantity'] }} {{ __('currency') }}
+                        {{ Str::currency($cartItem['variation']->price_with_sale * $cartItem['quantity']) }} {{ __('currency') }}
                     </td>
                 </tr>
                 @endforeach
                 <tr>
                     <td colspan="3">{{ __('Total') }}</td>
-                    <td>{{ $total }} {{ __('currency') }}</td>
+                    <td>{{ Str::currency($total) }} {{ __('currency') }}</td>
                 </tr>
                 <tr>
                     <td colspan="3">{{ __('Delivery Price') }}</td>
-                    <td>{{ __('From') }} {{ $settings['delivery_price'] }} {{ __('currency') }}</td>
+                    <td>{{ __('From') }} {{ Str::currency($settings['delivery_price']) }} {{ __('currency') }}</td>
                 </tr>
             </tbody>
         </table>

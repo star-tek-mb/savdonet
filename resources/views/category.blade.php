@@ -23,9 +23,10 @@
                 <div class="card-body">
                     <p class="h5 card-title">
                         {{ $product->title }}
+                        <br>
                         @include('product-price', ['product' => $product])
                     </p>
-                    <p>{{ \Illuminate\Support\Str::limit(strip_tags($product->description), 200) }}</p>
+                    <p>{{ Str::limit(strip_tags($product->description), 200) }}</p>
                 </div>
                 <div class="mb-4 mr-4 text-right">
                     @if (count($product->variations) == 1)

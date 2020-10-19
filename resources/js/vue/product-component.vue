@@ -8,17 +8,19 @@
     <div class="card-body">
       <p class="h5 card-title">
         {{ __(product.title) }}
-        <template v-if="get_sale_price(product)">
-          <del v-if="get_price(product)[0] == get_price(product)[1]" class="text-danger float-right">{{ get_price(product)[0] }} {{ __('currency') }}</del>
-          <del v-if="get_price(product)[0] != get_price(product)[1]" class="text-danger float-right">{{ get_price(product)[0] }} - {{ get_price(product)[1] }}  {{ __('currency') }}</del>
-          <br>
-          <span v-if="get_sale_price(product)[0] == get_sale_price(product)[1]" class="text-danger float-right">{{ get_sale_price(product)[0] }} {{ __('currency') }}</span>
-          <span v-else-if="get_sale_price(product)[0] != get_sale_price(product)[1]" class="text-danger float-right">{{ get_sale_price(product)[0] }} - {{ get_sale_price(product)[1] }}  {{ __('currency') }}</span>
-        </template>
-        <template v-else>
-          <span v-if="get_price(product)[0] == get_price(product)[1]" class="text-danger float-right">{{ get_price(product)[0] }} {{ __('currency') }}</span>
-          <span v-if="get_price(product)[0] != get_price(product)[1]" class="text-danger float-right">{{ get_price(product)[0] }} - {{ get_price(product)[1] }}  {{ __('currency') }}</span>
-        </template>
+        <price inline-template :sale-price="get_sale_price(product)" :price="get_price(product)">
+          <div v-if="salePrice[0] != price[0] || salePrice[1] != price[1]">
+            <del v-if="price[0] == price[1]" class="font-weight-bold">{{ price[0] | currency }} {{ __('currency') }}</del>
+            <del v-if="price[0] != price[1]" class="font-weight-bold">{{ price[0] | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</del>
+            <br>
+            <span v-if="salePrice[0] == salePrice[1]" class="font-weight-bold">{{ salePrice[0] | currency }} {{ __('currency') }}</span>
+            <span v-else-if="salePrice[0] != salePrice[1]" class="font-weight-bold">{{ salePrice[0] | currency }} - {{ salePrice[1] | currency }}  {{ __('currency') }}</span>
+          </div>
+          <div v-else>
+            <span v-if="price[0] == price[1]" class="font-weight-bold">{{ price[0]  | currency }} {{ __('currency') }}</span>
+            <span v-if="price[0] != price[1]" class="font-weight-bold">{{ price[0]  | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</span>
+          </div>
+        </price>
       </p>
       <p>{{ __(product.description) | strip | trunc(200) }}</p>
     </div>
@@ -31,6 +33,11 @@
 <script>
 export default {
   props: ["product"],
+  components: {
+    price: {
+      props: ["salePrice", "price"]
+    }
+  },
   methods: {
     get_date: function(date) {
       var dateParts = date.split("-");
@@ -56,9 +63,7 @@ export default {
       var max = 0;
       for (let i = 0; i < product.variations.length; i++) {
         var p = product.variations[i];
-        var price = p.sale_price;
-        if (!p.sale_price)
-          return null;
+        var price = p.sale_price || p.price;
         var sale_start = this.get_date(product.variations[i].sale_start).getTime();
         var sale_end = this.get_date(product.variations[i].sale_end).getTime();
         var now = Date.now();

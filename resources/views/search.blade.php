@@ -23,8 +23,8 @@
                 alt="{{ $result->title }}" />
         </div>
         <div class="col-9">
-            <p>{{ $result->title }}</p>
-            <p>{{ \Illuminate\Support\Str::limit(strip_tags($result->description), 200) }}</p>
+            <h2><a href="{{ route('product.show', $result->id) }}">{{ $result->title }}</a></h2>
+            <p>{{ Str::limit(strip_tags($result->description), 200) }}</p>
         </div>
     </div>
     @endforeach

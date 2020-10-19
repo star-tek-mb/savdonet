@@ -25,6 +25,9 @@ Vue.filter('strip', function (value) {
   var text = div.textContent || "";
   return text;
 });
+Vue.filter('currency', function (value) {
+  return parseInt(value).toLocaleString('ru', {maximumFractionDigits: 0});
+});
 
 Vue.use(InfiniteLoading);
 Vue.component('menu-component', require('./vue/menu-component.vue').default);

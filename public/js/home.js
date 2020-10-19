@@ -2068,8 +2068,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["product"],
+  components: {
+    price: {
+      props: ["salePrice", "price"]
+    }
+  },
   methods: {
     get_date: function get_date(date) {
       var dateParts = date.split("-");
@@ -2100,8 +2107,7 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i = 0; i < product.variations.length; i++) {
         var p = product.variations[i];
-        var price = p.sale_price;
-        if (!p.sale_price) return null;
+        var price = p.sale_price || p.price;
         var sale_start = this.get_date(product.variations[i].sale_start).getTime();
         var sale_end = this.get_date(product.variations[i].sale_end).getTime();
         var now = Date.now();
@@ -22187,79 +22193,92 @@ var render = function() {
         { staticClass: "h5 card-title" },
         [
           _vm._v("\n      " + _vm._s(_vm.__(_vm.product.title)) + "\n      "),
-          _vm.get_sale_price(_vm.product)
-            ? [
-                _vm.get_price(_vm.product)[0] == _vm.get_price(_vm.product)[1]
-                  ? _c("del", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_price(_vm.product)[0]) +
-                          " " +
-                          _vm._s(_vm.__("currency"))
-                      )
+          _c("price", {
+            attrs: {
+              "sale-price": _vm.get_sale_price(_vm.product),
+              price: _vm.get_price(_vm.product)
+            },
+            inlineTemplate: {
+              render: function() {
+                var _vm = this
+                var _h = _vm.$createElement
+                var _c = _vm._self._c || _h
+                return _vm.salePrice[0] != _vm.price[0] ||
+                  _vm.salePrice[1] != _vm.price[1]
+                  ? _c("div", [
+                      _vm.price[0] == _vm.price[1]
+                        ? _c("del", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.price[0])) +
+                                " " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.price[0] != _vm.price[1]
+                        ? _c("del", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.price[0])) +
+                                " - " +
+                                _vm._s(_vm._f("currency")(_vm.price[1])) +
+                                "  " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.salePrice[0] == _vm.salePrice[1]
+                        ? _c("span", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.salePrice[0])) +
+                                " " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm.salePrice[0] != _vm.salePrice[1]
+                        ? _c("span", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.salePrice[0])) +
+                                " - " +
+                                _vm._s(_vm._f("currency")(_vm.salePrice[1])) +
+                                "  " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm._e()
                     ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.get_price(_vm.product)[0] != _vm.get_price(_vm.product)[1]
-                  ? _c("del", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_price(_vm.product)[0]) +
-                          " - " +
-                          _vm._s(_vm.get_price(_vm.product)[1]) +
-                          "  " +
-                          _vm._s(_vm.__("currency"))
-                      )
+                  : _c("div", [
+                      _vm.price[0] == _vm.price[1]
+                        ? _c("span", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.price[0])) +
+                                " " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.price[0] != _vm.price[1]
+                        ? _c("span", { staticClass: "font-weight-bold" }, [
+                            _vm._v(
+                              _vm._s(_vm._f("currency")(_vm.price[0])) +
+                                " - " +
+                                _vm._s(_vm._f("currency")(_vm.price[1])) +
+                                "  " +
+                                _vm._s(_vm.__("currency"))
+                            )
+                          ])
+                        : _vm._e()
                     ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _vm.get_sale_price(_vm.product)[0] ==
-                _vm.get_sale_price(_vm.product)[1]
-                  ? _c("span", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_sale_price(_vm.product)[0]) +
-                          " " +
-                          _vm._s(_vm.__("currency"))
-                      )
-                    ])
-                  : _vm.get_sale_price(_vm.product)[0] !=
-                    _vm.get_sale_price(_vm.product)[1]
-                  ? _c("span", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_sale_price(_vm.product)[0]) +
-                          " - " +
-                          _vm._s(_vm.get_sale_price(_vm.product)[1]) +
-                          "  " +
-                          _vm._s(_vm.__("currency"))
-                      )
-                    ])
-                  : _vm._e()
-              ]
-            : [
-                _vm.get_price(_vm.product)[0] == _vm.get_price(_vm.product)[1]
-                  ? _c("span", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_price(_vm.product)[0]) +
-                          " " +
-                          _vm._s(_vm.__("currency"))
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.get_price(_vm.product)[0] != _vm.get_price(_vm.product)[1]
-                  ? _c("span", { staticClass: "text-danger float-right" }, [
-                      _vm._v(
-                        _vm._s(_vm.get_price(_vm.product)[0]) +
-                          " - " +
-                          _vm._s(_vm.get_price(_vm.product)[1]) +
-                          "  " +
-                          _vm._s(_vm.__("currency"))
-                      )
-                    ])
-                  : _vm._e()
-              ]
+              },
+              staticRenderFns: []
+            }
+          })
         ],
-        2
+        1
       ),
       _vm._v(" "),
       _c("p", [
@@ -34564,6 +34583,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('strip', function (value) {
   div.innerHTML = value;
   var text = div.textContent || "";
   return text;
+});
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.filter('currency', function (value) {
+  return parseInt(value).toLocaleString('ru', {
+    maximumFractionDigits: 0
+  });
 });
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default.a);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('menu-component', __webpack_require__(/*! ./vue/menu-component.vue */ "./resources/js/vue/menu-component.vue")["default"]);

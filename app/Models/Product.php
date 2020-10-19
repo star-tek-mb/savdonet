@@ -45,16 +45,18 @@ class Product extends Model
         $min = 999999999;
         $max = 0;
         $now = Carbon::now();
+        $price = 0;
         foreach ($this->variations as $variation) {
+            $price = $variation->sale_price;
             if (!$variation->sale_start || !$variation->sale_end || !$variation->sale_start->lt($now)
                         || !$variation->sale_end->gt($now) || !$variation->sale_price) {
-                return null;
+                $price = $variation->price;
             }
-            if ($variation->price < $min) {
-                $min = $variation->sale_price;
+            if ($price < $min) {
+                $min = $price;
             }
-            if ($variation->price > $max) {
-                $max = $variation->sale_price;
+            if ($price > $max) {
+                $max = $price;
             }
         }
         return array($min, $max);
