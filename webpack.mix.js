@@ -16,4 +16,5 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/backend.js', 'public/js')
     .sass('resources/sass/backend.scss', 'public/css')
     .js('resources/js/home.js', 'public/js')
+    .js('resources/js/product-chooser.js', 'public/js')
     .copy('resources/lang/*.json', 'public/lang');

@@ -34,7 +34,7 @@ class CartController extends Controller
                 session()->put('cart', $cart);
                 break;
             } else {
-                $total += $var->price_with_sale;
+                $total += $var->price_with_sale * $cartItem['quantity'];
             }
         }
 

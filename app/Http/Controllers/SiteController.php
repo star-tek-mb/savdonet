@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Value;
 use App\Models\Category;
 use App\Models\Page;
 use Illuminate\Http\Request;
@@ -46,10 +45,9 @@ class SiteController extends Controller
     public function product($id) {
         $pages = Page::orderBy('number')->get();
         $categories = Category::whereNull('parent_id')->orderBy('number')->get();
-        $product = Product::with('variations')->findOrFail($id);
-        $values = Value::all()->load('option');
+        $product = Product::findOrFail($id);
         $product->increment('views');
-        return view('product', ['categories' => $categories, 'pages' => $pages, 'product' => $product, 'values' => $values]);
+        return view('product', ['categories' => $categories, 'pages' => $pages, 'product' => $product]);
     }
 
     public function search(Request $request) {

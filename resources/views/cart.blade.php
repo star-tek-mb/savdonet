@@ -12,7 +12,7 @@
     @endif
 </div>
 
-<div class="container">
+<div class="container mb-4">
     <h1 class="h3 py-4">{{ __("Cart") }}</h1>
     @if (count($cart) > 0)
     <div class="table-responsive">

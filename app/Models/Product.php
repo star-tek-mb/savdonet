@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Option;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -25,6 +26,27 @@ class Product extends Model
 
     public function supplier() {
         return $this->belongsTo('App\Models\Supplier');
+    }
+
+    public function getFullNameAttribute() {
+        $res = null;
+        $global_options = Option::all();
+        if (count($this->options) > 0) {
+            $res = '';
+            $vals = array_values($this->options);
+            $last = end($vals);
+            foreach ($this->options as $option_id) {
+                foreach ($global_options as $o) {
+                    if ($o->id == $option_id) {
+                        $res .= $o->title;
+                    }
+                }
+                if ($last != $option_id) {
+                    $res .= ', ';
+                }
+            }
+        }
+        return $res;
     }
 
     public function getPriceAttribute() {

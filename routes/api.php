@@ -19,5 +19,6 @@ Route::namespace('App\Http\Controllers')->group(function() {
     Route::get('/category/{id}', 'ApiController@subCategories');
     Route::get('/products/latest', 'ApiController@latestProducts');
     Route::get('/products/{id}', 'ApiController@allProducts');
+    Route::get('/product/{id}', 'ApiController@getInformation');
     Route::get('/cart', 'ApiController@cart');
 });

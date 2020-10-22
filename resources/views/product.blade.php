@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container mb-4">
     @if (session('status'))
     <div class="alert alert-info" role="alert">
         {{ session('status') }}
@@ -13,7 +13,7 @@
     <h1 class="mb-4">{{ $product->title }}</h1>
     <div class="row">
         <div class="col-sm-12 col-lg-6 text-center my-auto no-float">
-            <div class="carousel slide" id="carousel" data-ride="carousel">
+            <div class="carousel" id="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carousel" data-slide-to="0" class="active"></li>
                     @foreach($product->media ?? array() as $media)
@@ -29,7 +29,11 @@
                         <img src="{{ Storage::url($media) }}" class="d-block w-100">
                     </div>
                     @endforeach
+                    <div id="variation-photo" class="carousel-item">
+                        <img src="{{ Storage::url($product->variations[0]->photo_url) }}" class="d-block w-100">
+                    </div>
                 </div>
+                <!--
                 <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">{{ __("Previous") }}</span>
@@ -37,7 +41,7 @@
                 <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">{{ __("Next") }}</span>
-                </a>
+                </a>-->
             </div>
         </div>
         <div class="col-sm-12 col-lg-6 mt-4">
@@ -45,68 +49,43 @@
             <p>{{ $product->category->full_name }}</p>
             <h4 class="mt-4">{{ __("Description") }}</h4>
             <p>{!! $product->description !!}</p>
-        </div>
-    </div>
-    @if (count($product->options) > 0)
-    <div class="text-center mx-auto pt-4">
-        <h1 class="mb-4">{{ __("Variations") }}</h1>
-        @foreach ($product->variations as $variation)
-        <div class="row mx-auto">
-            <div class="col-sm-12 col-lg-4 my-auto">
-                <img src="{{ Storage::url($variation->photo_url) }}" class="mx-auto img-fluid mb-2"
-                    alt="{{ $product->title }}" />
+            <div id="product-chooser">
             </div>
-            <div class="col-sm-6 col-lg-4 my-auto my-2">
-                <p><b>{{ __("Stock") }}</b>: {{ $variation->stock }}</p>
-                <p><b>{{ __("Price") }}</b>: @include('product-variation-price', ['variation' => $variation])</p>
-                @foreach ($variation->values as $variation_value_id)
-                @foreach ($values as $value)
-                @if ($value->id == $variation_value_id)
-                <p><b>{{ $value->option->title }}</b>: {{ $value->title }}</p>
-                @endif
-                @endforeach
-                @endforeach
-            </div>
-            <div class="col-sm-6 col-lg-4 my-2 my-auto">
-                <div class="col col-sm-12 text-right my-2">
-                    <input type="number" id="variation{{ $variation->id }}" class="form-control" value="1">
+            @if (count($product->options) == 0)
+            <h4>{{ __('Make an Order') }}</h4>
+            <div class="row">
+                <p class="col-12 h4"><b>{{ __("Stock") }}</b>:
+                    {{ $product->variations[0]->stock }}</p>
+                <p class="col-12 h4 font-weight-bold"><b>{{ __("Price") }}</b>:
+                    @include('product-variation-price', ['variation' => $product->variations[0]])
+                </p>
+                <div class="col-12 my-2">
+                    <input type="number" id="variation{{ $product->variations[0]->id }}" class="form-control" value="1">
                 </div>
-                <div class="col col-sm-12 my-2 btn-group btn-group-justified">
-                    <a class="btn btn-primary my-1"
-                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $variation->id) }}?order&qty=' + $('#variation{{ $variation->id }}').val();"
-                        href="{{ route('cart.store', $variation->id) }}">{{ __("Place an Order") }}</a>
-                    <a class="btn btn-primary my-1"
-                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $variation->id) }}?qty=' + $('#variation{{ $variation->id }}').val();"
-                        href="{{ route('cart.store', $variation->id) }}"><i
+                <div class="col-12 btn-group btn-group-justified">
+                    <a class="btn btn-primary py-2 my-1"
+                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?order&qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
+                        href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Order") }}</a>
+                    <a class="btn btn-primary py-2 my-1"
+                        onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
+                        href="{{ route('cart.store', $product->variations[0]->id) }}"><i
                             class="fas fa-shopping-cart"></i></a>
                 </div>
             </div>
-        </div>
-        @endforeach
-    </div>
-    @else
-    <div class="row my-4">
-        <p class="col-4 my-auto text-right"><b>{{ __("Stock") }}</b>:
-            {{ $product->variations[0]->stock }}<br><b>{{ __("Price") }}</b>:
-            @include('product-variation-price', ['variation' => $product->variations[0]])
-        </p>
-        <div class="col-4 text-right my-2 my-auto">
-            <input type="number" id="variation{{ $product->variations[0]->id }}" class="form-control" value="1">
-        </div>
-        <div class="col-4 my-2 text-center my-auto">
-            <a class="btn btn-primary my-1"
-                onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?order&qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
-                href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Order") }}</a>
-            <a class="btn btn-primary my-1"
-                onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
-                href="{{ route('cart.store', $product->variations[0]->id) }}"><i class="fas fa-shopping-cart"></i></a>
+            @endif
         </div>
     </div>
-    @endif
 </div>
 
 @endsection
 
 @push('js')
-<script src="{{ asset('js/app.js') }}" defer></script>
+@if (count($product->options) == 0)
+<script src="{{ asset('js/app.js') }}"></script>
+@else
+<script>
+window.product_id = {{ $product->id }};
+</script>
+<script src="{{ asset('js/product-chooser.js') }}"></script>
+@endif
 @endpush

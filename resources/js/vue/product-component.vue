@@ -8,7 +8,7 @@
     <div class="card-body">
       <p class="h5 card-title">
         {{ __(product.title) }}
-        <price inline-template :sale-price="get_sale_price(product)" :price="get_price(product)">
+        <price class="h4" inline-template :sale-price="get_sale_price(product)" :price="get_price(product)">
           <div v-if="salePrice[0] != price[0] || salePrice[1] != price[1]">
             <del v-if="price[0] == price[1]" class="font-weight-bold">{{ price[0] | currency }} {{ __('currency') }}</del>
             <del v-if="price[0] != price[1]" class="font-weight-bold">{{ price[0] | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</del>

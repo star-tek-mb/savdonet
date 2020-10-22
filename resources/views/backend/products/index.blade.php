@@ -20,8 +20,6 @@
                     <th>{{ __('Title') }}</th>
                     <th>{{ __('Category') }}</th>
                     <th>{{ __('Supplier') }}</th>
-                    <th>{{ __('Price') }}</th>
-                    <th>{{ __('Stock') }}</th>
                     <th>{{ __('Views') }}</th>
                     <th>{{ __('Action') }}</th>
                 </thead>
@@ -52,27 +50,19 @@ $(document).ready(function() {
             },
             {
                 data: 'title',
-                name: 'product.title'
+                name: 'title'
             },
             {
                 data: 'category',
-                name: 'product.category.title',
+                name: 'category.title',
             },
             {
                 data: 'supplier',
-                name: 'product.supplier.shop_name',
-            },
-            {
-                data: 'price',
-                name: 'price'
-            },
-            {
-                data: 'stock',
-                name: 'stock'
+                name: 'supplier.shop_name',
             },
             {
                 data: 'views',
-                name: 'product.views'
+                name: 'views'
             },
             {
                 data: 'action',

@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container mb-4">
     @if (session('status'))
     <div class="alert alert-success" role="alert">
         {{ session('status') }}

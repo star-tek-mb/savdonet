@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container">
+<div class="container mb-4">
     @if ($errors->any())
     <div class="alert alert-danger">
         <h3>{{ __('Search error') }}:</h3>

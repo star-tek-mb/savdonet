@@ -21,25 +21,23 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $model = ProductVariation::with(['product', 'product.category', 'product.supplier']);
+            $model = Product::with(['category', 'supplier']);
             return Datatables::eloquent($model)
                 ->filter(function($query) {
                     $locale = config('app.locale');
                     $keyword = request('search.value');
-                    $sql = "exists (select * from `products` where `product_variations`.`product_id` = `products`.`id` and lower(json_unquote(json_extract(`products`.`title`, '$.$locale'))) LIKE ?)";
+                    $sql = "(lower(json_unquote(json_extract(title, '$.$locale'))) LIKE ?)";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
-                })->addColumn('title', function($row) {
-                    return $row->product->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
+                })->editColumn('title', function($row) {
+                    return $row->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
-                    return $row->product->category->full_name;
-                })->addColumn('views', function($row) {
-                    return $row->product->views ?? 0;
+                    return $row->category->full_name;
                 })->addColumn('supplier', function($row) {
-                    return $row->product->supplier ? $row->product->supplier->shop_name : __('Not set');
+                    return $row->supplier ? $row->supplier->shop_name : __('Not set');
                 })->addColumn('image', function($row) {
-                    return '<img src="' . Storage::url($row->photo_url) . '" class="img-fluid">';
+                    return '<img src="' . Storage::url($row->variations[0]->photo_url) . '" class="img-fluid">';
                 })->addColumn('action', function($row) {
-                    return view('backend.products.datatables-action', ['product' => $row->product]);
+                    return view('backend.products.datatables-action', ['product' => $row]);
                 })->rawColumns(['category', 'supplier', 'image', 'action'])->make(true);
         }
         return view('backend.products.index');
@@ -80,7 +78,7 @@ class ProductController extends Controller
                 'stock.*' => 'required|integer|min:0',
                 'values' => 'required|array',
                 'photo' => 'required|array',
-                'photo.*' => 'required|image'
+                'photo.*' => 'nullable|image'
             ])->validate();
 
             $product = new Product([

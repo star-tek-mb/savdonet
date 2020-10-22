@@ -90,7 +90,7 @@
                 @yield('content')
             </main>
             <div style="flex-grow:1"></div>
-            <div class="p-2 bg-dark text-light">
+            <div class="px-2 py-4 bg-dark text-light">
                 <div class="row container mx-auto">
                     <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
                         <ul class="list-group">
