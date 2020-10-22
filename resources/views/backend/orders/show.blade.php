@@ -17,6 +17,7 @@
             </div>
         </div>
         <div class="card-body">
+            <p><b>{{ __('Order date')}}</b>: {{ $order->created_at->format('d.m.Y H:i') }}</p>
             <p><b>{{ __('Full name') }}</b>: {{ $order->name }}</p>
             <p><b>{{ __('E-Mail Address') }}</b>: {{ $order->email ?? __('No') }}</p>
             <p><b>{{ __('Phone') }}</b>: {{ $order->phone }}</p>

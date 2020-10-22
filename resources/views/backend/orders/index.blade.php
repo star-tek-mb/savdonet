@@ -70,9 +70,8 @@ $(document).ready(function() {
                 name: 'created_at',
                 render: function(data, type) {
                     var dateParts = data.split("-");
-                    var jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0,
-                        2));
-                    return jsDate.toLocaleDateString('ru');
+                    var jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2), dateParts[2].substr(3, 2), dateParts[2].substr(6, 2), dateParts[2].substr(9, 2));
+                    return jsDate.toLocaleDateString('ru', {hour: "numeric", minute: "numeric"});
                 }
             },
             {
