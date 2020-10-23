@@ -83,7 +83,7 @@ class CartController extends Controller
         Validator::make($request->all(), [
             'fullname' => 'required|string|max:512',
             'email' => 'nullable|string|email|max:256',
-            'phone' => 'required|regex:/(\+998)[0-9]{9}$/',
+            'phone' => 'required|string', // regex:/(\+998)[0-9]{9}$/
             'address' => 'nullable|string|max:512',
             'comment' => 'nullable|string|max:1024',
             'region' => [

@@ -14,7 +14,7 @@ class AddCategorySortNumber extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->integer('number')->default(1);
+            $table->integer('number')->nullable()->default(1);
         });
     }
 

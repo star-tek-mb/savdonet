@@ -15,7 +15,7 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->integer('number')->default(1); // to sort in menu
+            $table->integer('number')->nullable()->default(1); // to sort in menu
             $table->string('slug');
             $table->text('title'); // translatable
             $table->text('description'); // translatable

@@ -15,4 +15,8 @@ $(document).ready(function() {
         $('#app').toggleClass('toggled');
         $('html').css('overflow-y', $('#app').hasClass('toggled') ? 'hidden' : 'scroll');
     });
+    $('.caret').on('click', function() {
+        $(this).parent().children('.nested').toggleClass('active');
+        $(this).toggleClass('caret-down');
+    });
 });

@@ -32,7 +32,16 @@ class PageController extends Controller
             'description' => 'required|array',
             'description.*' => 'required'
         ])->validate();
-        Page::create($request->all());
+
+        $translations_title = $request->input('title');;
+        $translations_description = $request->input('description');
+        $page = new Page([
+            'slug' => $request->input('slug'),
+            'number' => $request->input('number') ?? 1
+        ]);
+        $page->setTranslations('title', $translations_title);
+        $page->setTranslations('description', $translations_description);
+        $page->save();
         return redirect()->back()->with('status', __('Page created!'));
     }
 
@@ -53,8 +62,16 @@ class PageController extends Controller
             'description.*' => 'required'
         ])->validate();
 
+        $translations_title = $request->input('title');;
+        $translations_description = $request->input('description');
         $page = Page::findOrFail($id);
-        $page->fill($request->all())->save();
+        $page->fill([
+            'slug' => $request->input('slug'),
+            'number' => $request->input('number') ?? 1
+        ]);
+        $page->setTranslations('title', $translations_title);
+        $page->setTranslations('description', $translations_description);
+        $page->save();
         return redirect()->back();
     }
 

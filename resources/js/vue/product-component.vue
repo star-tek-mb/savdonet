@@ -8,17 +8,17 @@
     <div class="card-body">
       <p class="h5 card-title">
         {{ __(product.title) }}
-        <price class="h4" inline-template :sale-price="get_sale_price(product)" :price="get_price(product)">
+        <price class="h3 my-1 font-weight-bold" inline-template :sale-price="get_sale_price(product)" :price="get_price(product)">
           <div v-if="salePrice[0] != price[0] || salePrice[1] != price[1]">
-            <del v-if="price[0] == price[1]" class="font-weight-bold">{{ price[0] | currency }} {{ __('currency') }}</del>
+            <del v-if="price[0] == price[1]">{{ price[0] | currency }} {{ __('currency') }}</del>
             <del v-if="price[0] != price[1]" class="font-weight-bold">{{ price[0] | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</del>
             <br>
-            <span v-if="salePrice[0] == salePrice[1]" class="font-weight-bold">{{ salePrice[0] | currency }} {{ __('currency') }}</span>
-            <span v-else-if="salePrice[0] != salePrice[1]" class="font-weight-bold">{{ salePrice[0] | currency }} - {{ salePrice[1] | currency }}  {{ __('currency') }}</span>
+            <span v-if="salePrice[0] == salePrice[1]">{{ salePrice[0] | currency }} {{ __('currency') }}</span>
+            <span v-else-if="salePrice[0] != salePrice[1]">{{ salePrice[0] | currency }} - {{ salePrice[1] | currency }}  {{ __('currency') }}</span>
           </div>
           <div v-else>
-            <span v-if="price[0] == price[1]" class="font-weight-bold">{{ price[0]  | currency }} {{ __('currency') }}</span>
-            <span v-if="price[0] != price[1]" class="font-weight-bold">{{ price[0]  | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</span>
+            <span v-if="price[0] == price[1]">{{ price[0]  | currency }} {{ __('currency') }}</span>
+            <span v-if="price[0] != price[1]">{{ price[0]  | currency }} - {{ price[1] | currency }}  {{ __('currency') }}</span>
           </div>
         </price>
       </p>

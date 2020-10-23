@@ -48,7 +48,7 @@ class CategoryController extends Controller
         $category->fill([
             'parent_id' => $request->input('parent_id'),
             'photo_url' => $photo_url,
-            'number' => $request->input('number'),
+            'number' => $request->input('number') ?? 1
         ]);
         $translations = $request->input('title');
         $category->setTranslations('title', $translations);
@@ -70,7 +70,7 @@ class CategoryController extends Controller
         $category = new Category([
             'parent_id' => $request->input('parent_id'),
             'photo_url' => $photo_url,
-            'number' => $request->input('number')
+            'number' => $request->input('number') ?? 1
         ]);
         $category->setTranslations('title', $translations);
         $category->save();

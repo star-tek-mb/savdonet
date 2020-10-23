@@ -19,6 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->text('title');
             $table->text('photo_url');
             $table->text('seo')->nullable(); // maybe json, maybe text
+            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('set null');
         });
     }
 

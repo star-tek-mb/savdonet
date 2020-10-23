@@ -74,15 +74,6 @@ i.fas {
   letter-spacing: 0 !important;
 }
 
-.sidebar-menu {
-    padding-inline-start: 20px;
-    list-style-type: none;
-}
-
-.sidebar-menu li {
-    padding: 5px;
-}
-
 #page-content-wrapper {
   min-width: 100vw;
   min-height: 100vh;
@@ -97,4 +88,39 @@ i.fas {
 
 .pagination {
   justify-content: center !important;
+}
+
+.sidebar-menu {
+  padding-inline-start: 20px;
+  list-style-type: none;
+}
+
+.sidebar-menu li {
+  padding: 5px;
+}
+
+.caret {
+  cursor: pointer;
+  user-select: none;
+  padding: 5px;
+}
+
+.caret::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f0da";
+  color: black;
+  display: inline-block;
+}
+
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+.nested {
+  display: none;
+}
+
+.nested.active {
+  display: block;
 }

@@ -14,7 +14,7 @@
             @endforeach
         </ul>
     </div>
-    @endif
+    @else
     <h1 class="mb-4">{{ __('Search') }} - {{ __('found_matches', ['value' => count($results)]) }}</h1>
     @foreach ($results as $result)
     <div class="row mb-4">
@@ -28,7 +28,8 @@
         </div>
     </div>
     @endforeach
-    {{ $results->appends(request()->input())->links() }}
+    {{ $results->withQueryString()->links() }}
+    @endif
 </div>
 
 @endsection

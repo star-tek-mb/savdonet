@@ -1,7 +1,7 @@
 {
-    "ru": "Русский",
+    "ru": "Rus tili",
     "uz": "Узбекский (кириллица)",
-    "oz": "Узбекский (латиница)",
+    "oz": "O'zbek tili",
     "office": "Pochta bo'limiga",
     "courier": "Kuryer orqali manzilga",
     "courier_tashkent": "Toshkentdagi manzilga kuryer orqali yetkazib berish",
@@ -112,12 +112,15 @@
     "Shipping Method": "Yetkazib berish usuli",
     "Delivery Price": "Yetkazib berish narxi",
     "No": "Yo'q",
-    "From": "Kimdan",
+    "From": "Boshlang'ich",
     "currency": "sum",
     "Views": "Ko'rishlar",
     "Order": "Buyurtma",
     "Edit Order": "Buyurtmani o'zgartirish",
     "Simple order": "Menga qo'ng'iroq qiling",
     "Full order": "Shaklni to'ldiring",
-    "Place an Order": "Buyurtma qilish"
+    "Place an Order": "Buyurtma qilish",
+    "Pages": "Sahifalar",
+    "Edit Page": "Sahifani tahrirlash",
+    "found_matches": ":value narsa topildi"
 }

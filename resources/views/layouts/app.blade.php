@@ -102,7 +102,7 @@
                         </ul>
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
-                        <b>Контакты</b>:<br> +998 90 6653323
+                        <b>Контакты</b>:<br> +998 99 410 11 18
                     </div>
                     <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
                         <b>Подпишитесь на нас</b><br>

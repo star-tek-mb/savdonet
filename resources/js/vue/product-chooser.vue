@@ -49,16 +49,16 @@
         <div class="col-12 my-1">
           <input type="number" class="form-control my-1" v-model="quantity" />
         </div>
-        <div class="col-12 my-1 btn-group btn-group-justified w-100">
+        <div class="col-12 btn-group btn-group-justified w-100">
           <button
-            class="btn btn-primary py-2"
+            class="btn btn-primary py-2 m-1"
             @click="order"
             :disabled="selected_variant == null"
           >
             {{ __("Order") }}
           </button>
           <button
-            class="btn btn-primary py-2"
+            class="btn btn-primary py-2 m-1"
             @click="to_cart"
             :disabled="selected_variant == null"
           >
