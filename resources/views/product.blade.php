@@ -13,7 +13,7 @@
     <h1 class="mb-4">{{ $product->title }}</h1>
     <div class="row">
         <div class="col-sm-12 col-lg-6 text-center my-auto no-float">
-            <div class="carousel" id="carousel">
+            <div class="carousel slide" id="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carousel" data-slide-to="0" class="active"></li>
                     @foreach($product->media ?? array() as $media)
