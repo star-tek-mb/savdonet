@@ -31,11 +31,11 @@
                 @csrf
                 <div class="form-group">
                     <label class="form-label">#</label>
-                    <input name="number" type="number" class="form-control" value="{{ $page->number }}">
+                    <input name="number" type="number" class="form-control" value="{{ old('number', $page->number) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Slug') }}</label>
-                    <input name="slug" type="text" class="form-control" value="{{ $page->slug }}">
+                    <input name="slug" type="text" class="form-control" value="{{ old('slug', $page->slug) }}">
                 </div>
                 <ul class="nav nav-pills nav-fill my-4" id="language_tabs" role="tablist">
                     @foreach(config('app.locales') as $locale)
@@ -56,7 +56,7 @@
                                 <div class="col-12">
                                     <input name="title[{{ $locale }}]" type="text" class="form-control"
                                         placeholder="{{ __($locale) }}"
-                                        value="{{ $page->getTranslation('title', $locale) }}">
+                                        value="{{ @old('title')[$locale] ?? $page->getTranslation('title', $locale) }}">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <label class="form-label">{{ __('Description') }}</label>
                             <div class="py-2">
                                 <textarea name="description[{{ $locale }}]" rows="6"
-                                    class="form-control">{{ $page->getTranslation('description', $locale) }}</textarea>
+                                    class="form-control">{!! @old('description')[$locale] ?? $page->getTranslation('description', $locale) !!}</textarea>
                             </div>
                         </div>
                     </div>

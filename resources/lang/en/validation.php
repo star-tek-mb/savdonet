@@ -148,6 +148,8 @@ return [
 
     'attributes' => [
         'slug'                  => 'Slug',
+        'parent_id'             => 'Parent',
+        'shop_name'             => 'Shop name',
         'price'                 => 'Price',
         'price.*'               => 'Price',
         'title'                 => 'Title',

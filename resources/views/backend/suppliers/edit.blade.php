@@ -35,22 +35,22 @@
                 <div class="form-group">
                     <label class="form-label">{{ __('Full name') }}</label>
                     <input name="name" type="text" class="form-control" placeholder="{{ __('Full name') }}"
-                        value="{{ $supplier->name }}">
+                        value="{{ old('name', $supplier->name) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Shop name') }}</label>
                     <input name="shop_name" type="text" class="form-control" placeholder="{{ __('Shop name') }}"
-                        value="{{ $supplier->shop_name }}">
+                        value="{{ old('shop_name', $supplier->shop_name) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Address') }}</label>
                     <input name="address" type="text" class="form-control" placeholder="{{ __('Address') }}"
-                        value="{{ $supplier->address }}">
+                        value="{{ old('address', $supplier->address) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Phone') }}</label>
                     <input name="phone" type="text" class="form-control" placeholder="{{ __('Phone') }}"
-                        value="{{ $supplier->phone }}">
+                        value="{{ old('phone', $supplier->phone) }}">
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary" value="{{ __('Save') }}">

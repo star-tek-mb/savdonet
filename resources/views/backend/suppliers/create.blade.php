@@ -28,19 +28,19 @@
                 @csrf
                 <div class="form-group">
                     <label class="form-label">{{ __('Full name') }}</label>
-                    <input name="name" type="text" class="form-control" placeholder="{{ __('Full name') }}">
+                    <input name="name" type="text" class="form-control" placeholder="{{ __('Full name') }}" value="{{ old('name') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Shop name') }}</label>
-                    <input name="shop_name" type="text" class="form-control" placeholder="{{ __('Shop name') }}">
+                    <input name="shop_name" type="text" class="form-control" placeholder="{{ __('Shop name') }}" value="{{ old('shop_name') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Address') }}</label>
-                    <input name="address" type="text" class="form-control" placeholder="{{ __('Address') }}">
+                    <input name="address" type="text" class="form-control" placeholder="{{ __('Address') }}" value="{{ old('address') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Phone') }}</label>
-                    <input name="phone" type="text" class="form-control" placeholder="{{ __('Phone') }}">
+                    <input name="phone" type="text" class="form-control" placeholder="{{ __('Phone') }}"  value="{{ old('phone') }}">
                 </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">

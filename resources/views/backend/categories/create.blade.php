@@ -28,7 +28,7 @@
                 @csrf
                 <div class="form-group">
                     <label class="form-label">#</label>
-                    <input name="number" type="number" class="form-control">
+                    <input name="number" type="number" class="form-control" value="{{ old('number') }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Title') }}</label>
@@ -36,7 +36,7 @@
                         @foreach(config('app.locales') as $locale)
                         <div class="col-12">
                             <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                placeholder="{{ __($locale) }}">
+                                placeholder="{{ __($locale) }}" value="{{ @old('title')[$locale] }}">
                         </div>
                         @endforeach
                     </div>
@@ -46,7 +46,7 @@
                     <select name="parent_id" class="form-control">
                         <option value="">{{ __('Not set') }}</option>
                         @foreach($categories as $category)
-                        <option value="{{ $category->id }}">
+                        <option value="{{ $category->id }}" @if (old('parent_id') == $category->id) selected @endif>
                             {{ $category->full_name }}</option>
                         @endforeach
                     </select>

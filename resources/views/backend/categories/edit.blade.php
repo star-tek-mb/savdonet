@@ -33,7 +33,7 @@
                 @method('PUT')
                 <div class="form-group">
                     <label class="form-label">#</label>
-                    <input name="number" type="number" class="form-control" value="{{ $category->number }}">
+                    <input name="number" type="number" class="form-control" value="{{ old('number', $category->number) }}">
                 </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Title') }}</label>
@@ -41,7 +41,7 @@
                         @foreach(config('app.locales') as $locale)
                         <div class="col-12">
                             <input name="title[{{ $locale }}]" type="text" class="form-control"
-                                value="{{ $category->getTranslation('title', $locale) }}">
+                                value="{{ @old('title')[$locale] ?? $category->getTranslation('title', $locale) }}">
                         </div>
                         @endforeach
                     </div>
@@ -51,7 +51,7 @@
                     <select name="parent_id" class="form-control">
                         <option value="">{{ __('Not set') }}</option>
                         @foreach($categories as $c)
-                        <option value="{{ $category->id }}" @if ($category->parent && $category->parent->id == $c->id) selected @endif>
+                        <option value="{{ $c->id }}" @if ($category->parent_id == $c->id || old('parent_id') == $c->id) selected @endif>
                             {{ $c->full_name }}</option>
                         @endforeach
                     </select>

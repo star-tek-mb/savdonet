@@ -36,7 +36,8 @@ class CategoryController extends Controller
             'title' => 'required|array',
             'title.*' => 'required',
             'photo' => 'nullable|image',
-            'number' => 'nullable|integer'
+            'number' => 'nullable|integer',
+            'parent_id' => 'nullable|integer|not_in:' . $id
         ])->validate();
 
         $category = Category::findOrFail($id);
