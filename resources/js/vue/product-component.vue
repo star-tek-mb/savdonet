@@ -22,7 +22,7 @@
           </div>
         </price>
       </p>
-      <p>{{ __(product.description) | strip | trunc(200) }}</p>
+      <p style="white-space: pre;">{{ __(product.text_descriptions) }}</p>
     </div>
     <div class="mb-4 mr-4 text-right">
       <a v-if="product.options.length == 0" class="btn btn-primary" :href="'/' + documentLanguage + '/cart/' + product.variations[0].id">{{ __("To Cart") }}</a>

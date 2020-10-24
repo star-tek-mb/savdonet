@@ -24,7 +24,7 @@
         </div>
         <div class="col-9">
             <h2><a href="{{ route('product.show', $result->id) }}">{{ $result->title }}</a></h2>
-            <p>{{ Str::limit(strip_tags($result->description), 200) }}</p>
+            <p style="white-space: pre;">{{ $result->text_description }}</p>
         </div>
     </div>
     @endforeach

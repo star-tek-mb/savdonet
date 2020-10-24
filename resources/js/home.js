@@ -12,19 +12,6 @@ Vue.prototype.__ = function(str) {
   }
   return window.loaded_lang[str] || str;
 };
-Vue.filter('trunc', function (str, num) {
-  if (str.length > num) {
-    return str.slice(0, num) + "...";
-  } else {
-    return str;
-  }
-});
-Vue.filter('strip', function (value) {
-  var div = document.createElement("div");
-  div.innerHTML = value;
-  var text = div.textContent || "";
-  return text;
-});
 Vue.filter('currency', function (value) {
   return parseInt(value).toLocaleString('ru', {maximumFractionDigits: 0});
 });

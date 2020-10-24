@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\Option;
 use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Soundasleep\Html2Text;
 
 class Product extends Model
 {
@@ -15,6 +17,7 @@ class Product extends Model
     public $translatable = ['title', 'description'];
     protected $casts = ['options' => 'array', 'media' => 'array'];
     protected $with = ['category', 'variations'];
+    protected $appends = ['text_descriptions'];
 
     public function category() {
         return $this->belongsTo('App\Models\Category');
@@ -82,5 +85,18 @@ class Product extends Model
             }
         }
         return array($min, $max);
+    }
+
+    public function getTextDescriptionsAttribute() {
+        $result = [];
+        $description_translations = $this->getTranslations('description');
+        foreach ($description_translations as $locale => $translation) {
+            $result[$locale] = Str::limit(Html2Text::convert($translation), 100, '...');
+        }
+        return $result;
+    }
+
+    public function getTextDescriptionAttribute() {
+        return Str::limit(Html2Text::convert($this->description), 100, '...');
     }
 }
