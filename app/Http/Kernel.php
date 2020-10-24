@@ -54,6 +54,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'role' => \App\Http\Middleware\UserRole::class,
+        'optimizeimage' => \App\Http\Middleware\OptimizeImage::class,
         'setlocale' => \App\Http\Middleware\SetLocale::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

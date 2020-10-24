@@ -25,7 +25,9 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
         return redirect()->route('backend.dashboard');
     });
     Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
-    Route::resource('categories', 'CategoryController')->except(['show']);
+    Route::middleware('optimizeimage')->group(function() {
+        Route::resource('categories', 'CategoryController')->except(['show']);
+    });
     Route::resource('suppliers', 'SupplierController');
     Route::resource('pages', 'PageController')->except(['show']);
     Route::post('/pages/{id}/uploadImage', 'PageController@uploadImage')->name('pages.uploadImage');
@@ -39,7 +41,7 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
         Route::put('/value/{value}', 'OptionController@updateValue')->name('value.update');
         Route::delete('/value/{value}', 'OptionController@destroyValue')->name('value.destroy');
     });
-    Route::name('products.')->prefix('products')->group(function() {
+    Route::name('products.')->prefix('products')->middleware('optimizeimage')->group(function() {
         Route::get('/create/single', 'ProductController@createSingle')->name('create.single');
         Route::get('/create/variable', 'ProductController@createVariable')->name('create.variable');
         Route::get('/', 'ProductController@index')->name('index');
