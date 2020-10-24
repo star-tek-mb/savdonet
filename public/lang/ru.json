@@ -122,5 +122,8 @@
     "Place an Order": "Заказать",
     "Pages": "Страницы",
     "Edit Page": "Редактировать страницу",
-    "found_matches": "Найдено :value совпадений"
+    "found_matches": "Найдено :value совпадений",
+    "You can add photos to page only after saving": "Вы можете добавить изображения на страницу только после сохранения",
+    "Contacts": "Контакты",
+    "Subscribe to Us": "Подпишитесь на нас"
 }

@@ -66,6 +66,9 @@
                     </div>
                     @endforeach
                 </div>
+                <div class="callout callout-info" role="alert">
+                    <p>{{ __('You can add photos to page only after saving') }}</p>
+                </div>
                 <div class="text-center">
                     <input type="submit" class="btn btn-primary" value="{{ __('Add') }}">
                 </div>

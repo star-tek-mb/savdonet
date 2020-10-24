@@ -122,5 +122,8 @@
     "Place an Order": "Buyurtma qilish",
     "Pages": "Sahifalar",
     "Edit Page": "Sahifani tahrirlash",
-    "found_matches": ":value narsa topildi"
+    "found_matches": ":value narsa topildi",
+    "You can add photos to page only after saving": "Rasmlarni sahifani saqlagandan keyingina qo'shishingiz mumkin",
+    "Contacts": "Aloqa uchun",
+    "Subscribe to Us": "Bizga obuna bo'ling"
 }

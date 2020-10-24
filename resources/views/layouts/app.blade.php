@@ -92,7 +92,7 @@
             <div style="flex-grow:1"></div>
             <div class="px-2 py-4 bg-dark text-light">
                 <div class="row container mx-auto">
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2 text-center">
                         <ul class="list-group">
                             <li class="nav-link p-0"><b>{{ __('Shop') }}</b></li>
                             @foreach ($pages as $page)
@@ -101,14 +101,14 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
-                        <b>Контакты</b>:<br> +998 99 410 11 18
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2 text-center">
+                        <b>{{ __('Contacts') }}</b>:<br> +998 99 410 11 18
                     </div>
-                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2">
-                        <b>Подпишитесь на нас</b><br>
-                        <a class="fab fa-facebook text-light h4"></a>
-                        <a class="fab fa-telegram text-light h4"></a>
-                        <a class="fab fa-instagram text-light h4"></a>
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 mt-2 text-center">
+                        <b>{{ __('Subscribe to Us') }}</b><br>
+                        <a class="p-1 fab fa-facebook text-light h4"></a>
+                        <a class="p-1 fab fa-telegram text-light h4"></a>
+                        <a class="p-1 fab fa-instagram text-light h4"></a>
                     </div>
                 </div>
             </div>

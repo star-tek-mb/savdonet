@@ -30,7 +30,9 @@ Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Back
     });
     Route::resource('suppliers', 'SupplierController');
     Route::resource('pages', 'PageController')->except(['show']);
-    Route::post('/pages/{id}/uploadImage', 'PageController@uploadImage')->name('pages.uploadImage');
+    Route::middleware('optimizeimage')->group(function() {
+        Route::post('/pages/{id}/uploadImage', 'PageController@uploadImage')->name('pages.uploadImage');
+    });
     Route::resource('orders', 'OrderController')->except(['delete']);
     Route::name('options.')->prefix('options')->group(function() {
         Route::get('/', 'OptionController@index')->name('index');
