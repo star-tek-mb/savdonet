@@ -6,14 +6,14 @@ import InfiniteLoading from 'vue-infinite-loading';
 
 window.loaded_lang = {};
 Vue.prototype.documentLanguage = document.documentElement.lang;
-Vue.prototype.__ = function(str) {
-  if (str[document.documentElement.lang]) {
-      return str[document.documentElement.lang];
-  }
-  return window.loaded_lang[str] || str;
+Vue.prototype.__ = function (str) {
+    if (str[document.documentElement.lang]) {
+        return str[document.documentElement.lang];
+    }
+    return window.loaded_lang[str] || str;
 };
 Vue.filter('currency', function (value) {
-  return parseInt(value).toLocaleString('ru', {maximumFractionDigits: 0});
+    return parseInt(value).toLocaleString('ru', { maximumFractionDigits: 0 });
 });
 
 Vue.use(InfiniteLoading);
@@ -22,11 +22,11 @@ Vue.component('submenu-component', require('./vue/submenu-component.vue').defaul
 Vue.component('product-component', require('./vue/product-component.vue').default);
 
 (async function () {
-  var res = await axios.get('/lang/' + document.documentElement.lang + '.json');
-  window.loaded_lang = res.data;
+    var res = await axios.get('/lang/' + document.documentElement.lang + '.json');
+    window.loaded_lang = res.data;
 
-  new Vue({
-    render: h => h(Home)
-  }).$mount('#home');
+    new Vue({
+        render: h => h(Home)
+    }).$mount('#home');
 
 })();
