@@ -13,35 +13,24 @@
     <h1 class="mb-4">{{ $product->title }}</h1>
     <div class="row">
         <div class="col-sm-12 col-lg-6 text-center my-auto no-float">
-            <div class="carousel slide" id="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                    @foreach($product->media ?? array() as $media)
-                    <li data-target="#carousel" data-slide-to="{{ $loop->index+1 }}"></li>
-                    @endforeach
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="{{ Storage::url($product->variations[0]->photo_url) }}" class="d-block w-100">
+            <div class="row">
+                <div class="col-12">
+                    <img id="variation-photo" src="{{ Storage::url($product->variations[0]->photo_url) }}"
+                        class="d-block w-100">
+                </div>
+                <div class="col-12">
+                <div class="row justify-content-start px-3 my-1">
+                    <div class="col-3 p-0">
+                        <img src="{{ Storage::url($product->variations[0]->photo_url) }}"
+                            class="img-thumbnail active w-100">
                     </div>
                     @foreach($product->media ?? array() as $media)
-                    <div class="carousel-item">
-                        <img src="{{ Storage::url($media) }}" class="d-block w-100">
+                    <div class="col-3 p-0">
+                        <img src="{{ Storage::url($media) }}" class="img-thumbnail w-100">
                     </div>
                     @endforeach
-                    <div id="variation-photo" class="carousel-item">
-                        <img src="{{ Storage::url($product->variations[0]->photo_url) }}" class="d-block w-100">
                     </div>
                 </div>
-                <!--
-                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">{{ __("Previous") }}</span>
-                </a>
-                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">{{ __("Next") }}</span>
-                </a>-->
             </div>
         </div>
         <div class="col-sm-12 col-lg-6 mt-4">
@@ -68,8 +57,7 @@
                         href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Order") }}</a>
                     <a class="btn btn-primary py-2 m-1"
                         onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
-                        href="{{ route('cart.store', $product->variations[0]->id) }}"><i
-                            class="fas fa-shopping-cart"></i></a>
+                        href="{{ route('cart.store', $product->variations[0]->id) }}"><i class="fas fa-shopping-cart"></i></a>
                 </div>
             </div>
             @endif
@@ -88,4 +76,25 @@ window.product_id = {{ $product->id }};
 </script>
 <script src="{{ asset('js/product-chooser.js') }}"></script>
 @endif
+<script>
+$(document).ready(function() {
+    $('.img-thumbnail').on('click', function() {
+        $('.img-thumbnail').removeClass('active');
+        $(this).addClass('active');
+        $('#variation-photo').attr('src', $(this).attr('src'));
+    });
+});
+</script>
+@endpush
+
+@push('css')
+<style>
+.img-thumbnail {
+    padding: 0 !important;
+    border-width: 3px;
+}
+.img-thumbnail.active {
+    border-color: orange;
+}
+</style>
 @endpush

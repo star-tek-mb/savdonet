@@ -117,9 +117,9 @@ export default {
           return a.every((val, index) => val == b[index]);
         });
         if (this.selected_variant != null) {
-          var photo = window.document.querySelector("#variation-photo");
-          photo.children[0].src = '/storage/' + this.selected_variant.photo_url;
-          $('#carousel').carousel($(photo).index());
+          $('.img-thumbnail').removeClass('active');
+          $('#variation-photo').attr('src', '/storage/' + this.selected_variant.photo_url);
+          document.getElementById('variation-photo').scrollIntoView({behavior: 'smooth'});
         }
       } else {
         this.selected_variant = null;
