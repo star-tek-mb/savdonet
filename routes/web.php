@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('backend')->namespace('App\Http\Controllers\Auth')->group(function() {
+Route::prefix('adminislomkrasavchik')->namespace('App\Http\Controllers\Auth')->group(function() {
     Route::get('login', 'LoginController@showLoginForm')->name('login');
     Route::post('login', 'LoginController@login');
     Route::post('logout', 'LoginController@logout')->name('logout');
 });
 
-Route::name('backend.')->prefix('backend')->namespace('App\Http\Controllers\Backend')
+Route::name('backend.')->prefix('adminislomkrasavchik')->namespace('App\Http\Controllers\Backend')
                     ->middleware('auth', 'role:admin', 'setlocale')->group(function() {
     Route::get('/', function() {
         return redirect()->route('backend.dashboard');
