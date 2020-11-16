@@ -52,7 +52,7 @@
                     <input type="number" id="variation{{ $product->variations[0]->id }}" class="form-control" value="1">
                 </div>
                 <div class="col-12 btn-group btn-group-justified">
-                    <a class="btn btn-primary py-2 m-1
+                    <a class="btn btn-primary py-2 m-1"
                         onclick="event.preventDefault(); window.location = '{{ route('cart.store', $product->variations[0]->id) }}?order&qty=' + $('#variation{{ $product->variations[0]->id }}').val();"
                         href="{{ route('cart.store', $product->variations[0]->id) }}">{{ __("Order") }}</a>
                     <a class="btn btn-primary py-2 m-1"
