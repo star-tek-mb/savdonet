@@ -51,7 +51,7 @@
                     </div>
                 </price>
             </p>
-            <p style="white-space: pre">{{ __(product.text_descriptions) }}</p>
+            <p>{{ __(product.text_descriptions) }}</p>
         </div>
         <div class="mb-4 mr-4 text-right">
             <a

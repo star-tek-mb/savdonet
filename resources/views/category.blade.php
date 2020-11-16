@@ -26,7 +26,7 @@
                         <br>
                         @include('product-price', ['product' => $product])
                     </p>
-                    <p style="white-space: pre;">{{ $product->text_description }}</p>
+                    <p>{{ $product->text_description }}</p>
                 </div>
                 <div class="mb-4 mr-4 text-right">
                     @if (count($product->variations) == 1)
