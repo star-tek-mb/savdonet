@@ -88,15 +88,23 @@ class Product extends Model
     }
 
     public function getTextDescriptionsAttribute() {
+        $options = array(
+            'ignore_errors' => true,
+            'drop_links' => true
+        );
         $result = [];
         $description_translations = $this->getTranslations('description');
         foreach ($description_translations as $locale => $translation) {
-            $result[$locale] = Str::limit(Html2Text::convert($translation), 100, '...');
+            $result[$locale] = Str::limit(Html2Text::convert($translation, $options), 100, '...');
         }
         return $result;
     }
 
     public function getTextDescriptionAttribute() {
-        return Str::limit(Html2Text::convert($this->description), 100, '...');
+        $options = array(
+            'ignore_errors' => true,
+            'drop_links' => true
+        );
+        return Str::limit(Html2Text::convert($this->description, $options), 100, '...');
     }
 }
