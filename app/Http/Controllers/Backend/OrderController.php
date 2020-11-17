@@ -70,14 +70,18 @@ class OrderController extends Controller
 
         // if editing status to rejected - increment stocks
         if ($request->input('status') == 'rejected' && $order->status != 'rejected') {
-            foreach ($order->products as $order_product) {
-                $order_product->item->increment('stock', $order_product->quantity);
+            foreach ($order->products as $orderProduct) {
+                if ($orderProduct->item) { // if exists
+                    $orderProduct->item->increment('stock', $orderProduct->quantity);
+                }
             }
         }
         // if editing status from rejected - decrement stocks
         if ($order->status == 'rejected' && $request->input('status') != 'rejected') {
-            foreach ($order->products as $order_product) {
-                $order_product->item->decrement('stock', $order_product->quantity);
+            foreach ($order->products as $orderProduct) {
+                if ($orderProduct->item) { // if exists
+                    $orderProduct->item->decrement('stock', $orderProduct->quantity);
+                }
             }
         }
 
