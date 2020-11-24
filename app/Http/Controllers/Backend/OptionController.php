@@ -31,7 +31,7 @@ class OptionController extends Controller
         return redirect()->back()->with('status', __('Option stored!'));
     }
 
-    public function update($id, Request $request)
+    public function update(Request $request, $id)
     {
         $option = Option::findOrFail($id);
         Validator::make($request->all(), [
@@ -67,7 +67,7 @@ class OptionController extends Controller
         return redirect()->back()->with('status', __('Value stored!'));
     }
 
-    public function updateValue($id)
+    public function updateValue(Request $request, $id)
     {
         $value = Value::findOrFail($id);
         Validator::make($request->all(), [
