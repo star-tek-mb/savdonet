@@ -29,6 +29,7 @@
         <div class="card-body">
             <form action="{{ route('backend.pages.update', $page->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label class="form-label">#</label>
                     <input name="number" type="number" class="form-control" value="{{ old('number', $page->number) }}">
