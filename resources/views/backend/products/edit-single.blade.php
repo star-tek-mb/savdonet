@@ -100,6 +100,11 @@
                         <input type="hidden" name="values[]"
                             value="{{ implode(',', $product->variations[0]->values) }}">
                         <div class="form-group">
+                            <label class="form-label">{{ __('SKU') }}</label>
+                            <input name="sku[]" type="text" class="form-control"
+                                value="{{ $product->variations[0]->sku }}">
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">{{ __('Price') }}</label>
                             <input name="price[]" type="number" class="form-control"
                                 value="{{ $product->variations[0]->price }}">

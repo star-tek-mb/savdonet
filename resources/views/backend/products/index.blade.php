@@ -18,6 +18,7 @@
                 <thead>
                     <th>{{ __('Photo') }}</th>
                     <th>{{ __('Title') }}</th>
+                    <th>{{ __('SKU') }}</th>
                     <th>{{ __('Category') }}</th>
                     <th>{{ __('Supplier') }}</th>
                     <th>{{ __('Views') }}</th>
@@ -51,6 +52,10 @@ $(document).ready(function() {
             {
                 data: 'title',
                 name: 'title'
+            },
+            {
+                data: 'sku',
+                name: 'sku'
             },
             {
                 data: 'category',

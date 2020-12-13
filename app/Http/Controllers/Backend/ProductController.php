@@ -23,11 +23,14 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $model = Product::with(['category', 'supplier']);
             return Datatables::eloquent($model)
-                ->filter(function($query) {
+                ->filterColumn('title', function($query, $keyword) {
                     $locale = config('app.locale');
-                    $keyword = request('search.value');
                     $sql = "(lower(json_unquote(json_extract(title, '$.$locale'))) LIKE ?)";
                     $query->whereRaw($sql, ["%{$keyword}%"]);
+                })->filterColumn('sku', function($query, $keyword) {
+                    $query->whereHas('variations', function ($q) use ($keyword) {
+                        $q->where('sku', 'like', "%$keyword%");
+                    });
                 })->editColumn('title', function($row) {
                     return $row->title . ($row->full_name ? ' (' . $row->full_name . ')' : '');
                 })->addColumn('category', function($row) {
@@ -36,9 +39,14 @@ class ProductController extends Controller
                     return $row->supplier ? $row->supplier->shop_name : __('Not set');
                 })->addColumn('image', function($row) {
                     return '<img src="' . Storage::url($row->variations[0]->photo_url) . '" class="img-fluid">';
+                })->addColumn('sku', function($row) {
+                    $skus = $row->variations->map(function($variation, $key) {
+                        return $variation->sku;
+                    })->join(', ');
+                    return $skus;
                 })->addColumn('action', function($row) {
                     return view('backend.products.datatables-action', ['product' => $row]);
-                })->rawColumns(['category', 'supplier', 'image', 'action'])->make(true);
+                })->rawColumns(['category', 'supplier', 'sku', 'image', 'action'])->make(true);
         }
         return view('backend.products.index');
     }
@@ -72,6 +80,8 @@ class ProductController extends Controller
                 'description.*' => 'required',
                 'category_id' => 'required',
                 'supplier_id' => 'nullable|int',
+                'sku' => 'required|array',
+                'sku.*' => 'nullable',
                 'price' => 'required|array',
                 'price.*' => 'required|integer|min:1',
                 'stock' => 'required|array',
@@ -95,6 +105,7 @@ class ProductController extends Controller
                 $values = explode(',', $request->input('values')[$i]);
                 $product_variation = new ProductVariation([
                     'product_id' => $product->id,
+                    'sku' => $request->input('sku')[$i],
                     'stock' => $request->input('stock')[$i],
                     'price' => $request->input('price')[$i],
                     'values' => $values,
@@ -111,6 +122,7 @@ class ProductController extends Controller
                 'description.*' => 'required',
                 'category_id' => 'required|int',
                 'supplier_id' => 'nullable|int',
+                'sku' => 'nullable',
                 'price' => 'required|integer|min:1',
                 'stock' => 'required|integer|min:0',
                 'photo' => 'required|image'
@@ -128,6 +140,7 @@ class ProductController extends Controller
 
             $product_variation = new ProductVariation([
                 'product_id' => $product->id,
+                'sku' => $request->input('sku'),
                 'stock' => $request->input('stock'),
                 'price' => $request->input('price'),
                 'values' => array(),
@@ -159,6 +172,8 @@ class ProductController extends Controller
             'description.*' => 'required',
             'category_id' => 'required',
             'supplier_id' => 'nullable|int',
+            'sku' => 'required|array',
+            'sku.*' => 'nullable',
             'price' => 'required|array',
             'price.*' => 'required|integer|min:1',
             'stock' => 'required|array',
@@ -200,6 +215,7 @@ class ProductController extends Controller
             // fill
             $variation->fill([
                 'product_id' => $product->id,
+                'sku' => $request->input('sku')[$i],
                 'values' => $values,
                 'stock' => $request->input('stock')[$i],
                 'price' => $request->input('price')[$i],

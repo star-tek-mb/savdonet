@@ -78,6 +78,10 @@
                     @endforeach
                 </div>
                 <div class="form-group">
+                    <label class="form-label">{{ __('SKU') }}</label>
+                    <input name="sku" type="text" class="form-control" placeholder="" value="{{ old('sku') }}">
+                </div>
+                <div class="form-group">
                     <label class="form-label">{{ __('Price') }}</label>
                     <input name="price" type="number" class="form-control" placeholder="" value="{{ old('price') }}">
                 </div>

@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 class ProductVariation extends Model
 {
-    protected $fillable = ['product_id', 'stock', 'price', 'photo_url', 'values', 'sale_price', 'sale_start', 'sale_end'];
+    protected $fillable = ['product_id', 'sku', 'stock', 'price', 'photo_url', 'values', 'sale_price', 'sale_start', 'sale_end'];
     protected $casts = ['values' => 'array', 'sale_start' => 'datetime', 'sale_end' => 'datetime'];
     public $timestamps = false;
 

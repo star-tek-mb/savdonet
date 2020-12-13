@@ -140,6 +140,10 @@
                         <input type="hidden" name="variation[]" value="{{ $variation->id }}">
                         <input type="hidden" name="values[]" value="{{ implode(',', $variation->values) }}">
                         <div class="form-group">
+                            <label class="form-label">{{ __('SKU') }}</label>
+                            <input name="sku[]" type="text" class="form-control" value="{{ $variation->sku }}">
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">{{ __('Price') }}</label>
                             <input name="price[]" type="number" class="form-control" value="{{ $variation->price }}">
                         </div>
@@ -305,6 +309,10 @@ $(document).ready(function() {
                 <input type="hidden" name="variation[]" value="-1">
                 <input type="hidden" name="values[]" value="` +
             $('.values').val() + `">
+                <div class="form-group">
+                    <label class="form-label">{{ __('SKU') }}</label>
+                    <input name="sku[]" type="text" class="form-control" placeholder="">
+                </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Price') }}</label>
                     <input name="price[]" type="number" class="form-control" placeholder="">

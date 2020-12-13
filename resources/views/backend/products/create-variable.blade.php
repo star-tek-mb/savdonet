@@ -121,6 +121,10 @@
             <div class="card-body">
                 <input type="hidden" name="values[]" value="{{ $old_values }}">
                 <div class="form-group">
+                    <label class="form-label">{{ __('SKU') }}</label>
+                    <input name="sku[]" type="text" class="form-control" value="{{ old('sku')[$loop->index] }}">
+                </div>
+                <div class="form-group">
                     <label class="form-label">{{ __('Price') }}</label>
                     <input name="price[]" type="number" class="form-control" value="{{ old('price')[$loop->index] }}">
                 </div>
@@ -241,6 +245,10 @@ $(document).ready(function() {
             <div class="card-body">
                 <input type="hidden" name="values[]" value="` +
             $('.values').val() + `">
+                <div class="form-group">
+                    <label class="form-label">{{ __('SKU') }}</label>
+                    <input name="sku[]" type="text" class="form-control" placeholder="">
+                </div>
                 <div class="form-group">
                     <label class="form-label">{{ __('Price') }}</label>
                     <input name="price[]" type="number" class="form-control" placeholder="">
