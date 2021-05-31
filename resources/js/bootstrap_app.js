@@ -14,7 +14,7 @@ $(document).ready(function() {
     $('#sidebar-wrapper').on('toggled', function() {
         console.log('toggled');
         $('#app').toggleClass('toggled');
-        $('html').css('overflow-y', $('#app').hasClass('toggled') ? 'hidden' : 'scroll');
+        $('html').css('overflow-y', $('#app').hasClass('toggled') ? 'scroll' : 'hidden');
     });
     $('.caret').on('click', function() {
         $(this).parent().children('.nested').toggleClass('active');
