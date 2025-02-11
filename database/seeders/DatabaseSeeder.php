@@ -32,5 +32,11 @@ class DatabaseSeeder extends Seeder
             'key' => 'delivery_price_courier_tashkent',
             'value' => '15000'
         ]);
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+        ]);
     }
 }
